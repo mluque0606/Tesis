@@ -1,0 +1,106 @@
+/* Define variables de color */
+:root {
+    --color-fondo: #CEDEBD; /* color verde clarito */
+    --color-texto: #435334; /* color verde oscuro */
+  }
+
+  /* Estilos para la barra superior */
+.top-bar {
+    background-color: #FAF1E4; /* color cremita */
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px; /* Ajusta el espaciado según tus preferencias */
+  }
+
+  /* Estilo para los enlaces de navegación */
+.nav-link {
+    color: var(--color-texto);
+    text-decoration: none; /* Elimina el subrayado del enlace */
+  }
+  
+  /* Estilo para el texto en la pestaña "Referencia" */
+  .reference-top-bar .left {
+    flex: 1;
+    text-align: left;
+  }
+
+  /* Estilo para el texto en la pestaña "Ayuda" */
+.help-top-bar .right {
+    flex: 1;
+    text-align: right;
+  }
+  
+  /* Estilos para el encabezado */
+  header h1 {
+    font-size: 24px;
+    color: var(--color-texto);
+  }
+  
+  /* Estilos para las secciones principales */
+  main section h2 {
+    font-size: 20px;
+    color: var(--color-texto);
+  }
+
+  main section p {
+    color: var(--color-texto);
+  }
+  
+  body {
+    background-color: var(--color-fondo);
+  }
+  
+  /* Estilos para el árbol */
+  .tree-container {
+    border: 7px solid #ccc;
+    width: 800px;
+    height: 400px;
+    padding: 10px;
+    display: inline-flex;
+    justifyContent: center;
+    alignItems: center;
+  }
+
+  /* Nodos personalizados */
+
+.node__root > circle {   /* Raiz */
+    fill: whitesmoke;
+  }
+  
+  .node__branch > circle {   /* Transicion */
+    fill: yellow;
+  }
+  
+  .node__leaf > circle {   /* Solucion */
+    fill: green;
+  }
+
+  
+ /*REFERENCE PAGE*/ 
+  /* Estilos para la página de referencia */
+.reference-page {
+    /* Características principales */
+      .reference-characteristics {
+      list-style-type: none; /* Elimina los números de la lista */
+      padding-left: 0; /* Elimina el espacio izquierdo por defecto */
+  
+      p {
+        display: block; /* Cambia la visualización de los elementos a "block" */
+        text-align: left; /* Centra el texto horizontalmente */
+        padding-left: 20%; /* Agrega un padding izquierdo para que todos comiencen desde el mismo lugar */
+        color: var(--color-texto); /* Usa la variable de color */
+      }
+    }
+  }
+
+  /* Estilos específicos para el componente CodeSnippet */
+.code-snippet {
+    background-color: #FAF1E4; /* color cremita */ /* Color de fondo del código */
+    padding: 10px; /* Espaciado alrededor del código */
+    border: 1px solid #ccc; /* Borde alrededor del código */
+    border-radius: 5px; /* Bordes redondeados */
+    overflow: auto; /* Agrega una barra de desplazamiento si el código es largo */
+    max-width: 800px; /* Ancho máximo del código */
+    margin: 0 auto; /* Centra el código horizontalmente en su contenedor */
+    text-align: left;
+  }
