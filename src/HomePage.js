@@ -7,7 +7,8 @@ import Tree from 'react-d3-tree';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUndo, faPlay } from "@fortawesome/free-solid-svg-icons"; // Reemplaza "faCoffee" con el icono que desees utilizar.
 import { generateTreeDataSinPoda, generateTreeDatanario, generateTreeData } from './Algorithms/sumOfSubsets';
-import { generateNQueensTree } from './Algorithms/nQueens';
+import { generateNQueensTree, runNQueensForDifferentSizes } from './Algorithms/nQueens';
+import { createExecutionTimeChart } from './TimeComplexity';
 import './HomePage.css'; // Agrega los estilos a la pagina de inicio
 import Chart from 'chart.js/auto'; //Agregado para el grafico de complejidad temporal
 
@@ -167,8 +168,8 @@ function HomePage() {
         if (selectedOption === 'BACKTRACKING') {
           const start = performance.now(); // Tiempo inicial de ejecución
           let newTreeData;
-          const initialBoard = Array.from({ length: 4 }, () => Array(4).fill(0));
-          newTreeData = generateNQueensTree(4, initialBoard, 0, setPrunedNodes, setSolutionNodes);
+          const initialBoard = Array.from({ length: 5 }, () => Array(5).fill(0));
+          newTreeData = generateNQueensTree(5, initialBoard, 0, setPrunedNodes, setSolutionNodes);
 
           const end = performance.now(); // Tiempo final de ejecución
           const timeTaken = (end - start).toFixed(5); // Tiempo de ejecución en milisegundos
@@ -181,44 +182,10 @@ function HomePage() {
         else if (selectedOption === 'COMPLEJIDAD_TEMPORAL'){
           const sizes = [4, 6, 8, 9]; // Tamaños de entrada
           const executionTimes = [];
-          runNQueensForDifferentSizes(sizes, executionTimes);
+          runNQueensForDifferentSizes(sizes, executionTimes, setPrunedNodes, setSolutionNodes);
+          
           const ctx = document.getElementById('myChart').getContext('2d');
-
-          const chart = new Chart(ctx, {
-            type: 'line', // Cambia el tipo de gráfico a "line"
-            data: {
-              labels: sizes, // Usa los tamaños como etiquetas en el eje X
-              datasets: [
-                {
-                  label: 'Tiempo de Ejecución vs. Tamaño de Entrada',
-                  data: executionTimes, // Usa los tiempos de ejecución en el eje Y
-                  borderColor: 'rgba(75, 192, 192, 1)',
-                  borderWidth: 2, // Ancho de la línea
-                  fill: false, // No rellenar el área bajo la línea
-                },
-              ],
-            },
-            options: {
-              scales: {
-                x: {
-                  type: 'linear',
-                  position: 'bottom',
-                  title: {
-                    display: true,
-                    text: 'Tamaño de Entrada',
-                  },
-                },
-                y: {
-                  type: 'linear',
-                  position: 'left',
-                  title: {
-                    display: true,
-                    text: 'Tiempo de Ejecución (ms)',
-                  },
-                },
-              },
-            },
-          });
+          const chart = createExecutionTimeChart(ctx, sizes, executionTimes);
         }
         else{
           alert('OPCION INCORRECTA');
@@ -241,21 +208,6 @@ function HomePage() {
       setStep2Visible(false);
       setStep3Visible(false);
       setStep4Visible(false);
-    };
-
-    const runNQueensForDifferentSizes = (sizes, executionTimes) => {
-  
-      // Itera a través de diferentes tamaños de entrada
-      for (const size of sizes) {
-        const initialBoard = Array.from({ length: size }, () => Array(size).fill(0));
-  
-        const start = performance.now();
-        generateNQueensTree(size, initialBoard, 0, setPrunedNodes, setSolutionNodes);
-        const end = performance.now();
-  
-        const executionTime = end - start;
-        executionTimes.push(executionTime);
-      }
     };
 
     return (

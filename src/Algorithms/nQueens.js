@@ -83,4 +83,24 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
     }
     return true;
   };
+
+
+  /*Procedimiento para ejecucion de complejidad temporal en algoritmo de N-Reinas, donde se recibe por parametros
+  los tamaños del algoritmo a ejecutar y, se guarda en un arreglo los tiempos de ejecucion devueltos, para luego 
+  ser graficado
+  */
+  export const runNQueensForDifferentSizes = (sizes, executionTimes, setPrunedNodes, setSolutionNodes) => {
+  
+    // Itera a través de diferentes tamaños de entrada
+    for (const size of sizes) {
+      const initialBoard = Array.from({ length: size }, () => Array(size).fill(0));
+
+      const start = performance.now();
+      generateNQueensTree(size, initialBoard, 0, setPrunedNodes, setSolutionNodes);
+      const end = performance.now();
+
+      const executionTime = end - start;
+      executionTimes.push(executionTime);
+    }
+  };
   
