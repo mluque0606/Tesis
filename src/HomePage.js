@@ -60,10 +60,13 @@ function HomePage() {
         setSelectedOption(selectedValue); // Actualiza el estado selectedOption con el valor seleccionado por el usuario
     
         if (selectedValue === 'BACKTRACKING') {
-          setStep2Visible(true); // Avanza al paso 2
+          if (selectedAlgorithm ==='N-Reinas')
+            setStep3Visible(true); // Avanza al paso 3
+          else 
+            setStep2Visible(true); // Avanza al paso 2   
         } else if (selectedValue === 'COMPLEJIDAD_TEMPORAL') {
           // Realizar acciones para la opción COMPLEJIDAD_TEMPORAL
-          setStep2Visible(true);
+          setStep3Visible(true); // MODIFICAR LUEGO
         }
       }
     };
@@ -166,10 +169,11 @@ function HomePage() {
       else if (selectedAlgorithm=='N-Reinas')
       {
         if (selectedOption === 'BACKTRACKING') {
+          const inputTarget = parseFloat(document.getElementById('inputTarget').value);
           const start = performance.now(); // Tiempo inicial de ejecución
           let newTreeData;
-          const initialBoard = Array.from({ length: 5 }, () => Array(5).fill(0));
-          newTreeData = generateNQueensTree(5, initialBoard, 0, setPrunedNodes, setSolutionNodes);
+          const initialBoard = Array.from({ length: inputTarget }, () => Array(inputTarget).fill(0));
+          newTreeData = generateNQueensTree(inputTarget, initialBoard, 0, setPrunedNodes, setSolutionNodes);
 
           const end = performance.now(); // Tiempo final de ejecución
           const timeTaken = (end - start).toFixed(5); // Tiempo de ejecución en milisegundos
@@ -180,12 +184,14 @@ function HomePage() {
           setStep4Visible(true); // Avanza al paso 4
         }
         else if (selectedOption === 'COMPLEJIDAD_TEMPORAL'){
-          const sizes = [4, 6, 8, 9]; // Tamaños de entrada
+          const inputNumbers = document.getElementById('inputNumbers').value;
+          const sizes = inputNumbers.split(',').map(Number);
           const executionTimes = [];
           runNQueensForDifferentSizes(sizes, executionTimes, setPrunedNodes, setSolutionNodes);
           
           const ctx = document.getElementById('myChart').getContext('2d');
           const chart = createExecutionTimeChart(ctx, sizes, executionTimes);
+          setStep4Visible(true); // Avanza al paso 4
         }
         else{
           alert('OPCION INCORRECTA');
@@ -254,7 +260,6 @@ function HomePage() {
               <h2>Selecciona una opción para resolver el problema:</h2>
               <button onClick={handleOptionChange} value="BACKTRACKING">BACKTRACKING</button>
               <button onClick={handleOptionChange} value="COMPLEJIDAD_TEMPORAL">COMPLEJIDAD TEMPORAL</button>
-
             </section>
           )}
 
@@ -308,11 +313,9 @@ function HomePage() {
             </section>
           )}
 
-          
-
-        {step3Visible && (
+        {step3Visible && selectedAlgorithm === "Suma de Subconjuntos" &&(
             <section>
-              <h2>Cargue el conjunto y el valor objetivo</h2>
+              <h2>Carga de parámetros</h2>
             <form>
               <label>
                 Conjunto (separa los números por comas):
@@ -328,9 +331,38 @@ function HomePage() {
 
             </section>
         )}
+
+        {step3Visible && selectedAlgorithm === "N-Reinas" && selectedOption === "BACKTRACKING" &&(
+            <section>
+              <h2>Carga de parámetros</h2>
+            <form>
+              <label>
+                Cantidad de Reinas:
+                <input type="text" id="inputTarget" inputMode="numeric" />
+              </label>
+              <br />
+            </form>
+
+            </section>
+        )}
+
+        {step3Visible && selectedAlgorithm === "N-Reinas" && selectedOption === "COMPLEJIDAD_TEMPORAL" &&(
+            <section>
+              <h2>Carga de parámetros</h2>
+            <form>
+              <label>
+                Tamaños (separa los números por comas):
+                <input type="text" id="inputNumbers" />
+              </label>
+              <br />
+            </form>
+
+            </section>
+        )}
+
         {step3Visible && (
           <section>
-            {selectedAlgorithm && selectedResolution && (
+            {((selectedAlgorithm && selectedResolution) || (selectedAlgorithm == "N-Reinas")) && (
               <button id="ejecutarBtn" onClick={handleExecute}> <FontAwesomeIcon icon={faPlay} /> Ejecutar </button>
             )}
           </section>
@@ -338,7 +370,7 @@ function HomePage() {
 
         {step4Visible && (
           <section>
-            {treeVisible && (
+            {(treeVisible || selectedOption=== "COMPLEJIDAD_TEMPORAL") && (
               <button id="reiniciarBtn" onClick={handleReset}> <FontAwesomeIcon icon={faUndo} /> Reiniciar</button>
             )}
           </section>
@@ -348,7 +380,6 @@ function HomePage() {
             <section>
               {treeVisible && (
                   <div className='tree' style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
-                  <h2 className='tree-solution' style={{ textAlign: 'center' }}>Soluciones:</h2>
                   <div className='tree-container'>
                           <Tree data={treeData} 
                               rootNodeClassName="node__root" 
