@@ -233,7 +233,7 @@ function HomePage() {
           {/* Seleccion del algoritmo*/}
           {step0Visible && (
             <section>
-              <h2>Selecciona un algoritmo</h2>
+              <h2>Selecciona un Algoritmo</h2>
               <select value={selectedAlgorithm} onChange={handleAlgorithmChange}>
                 <option value="">Algoritmos</option>
                   {algorithms.map((algorithm, index) => (
