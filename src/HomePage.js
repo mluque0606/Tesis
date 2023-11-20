@@ -46,12 +46,16 @@ function HomePage() {
 
     const [selectedTreeType, setSelectedTreeType] = useState(''); //Usado para elegir entre arbol binario o n-ario
 
+    const [buttonsDisabled, setButtonsDisabled] = useState(false); //Estado para controlar la habilitacion de los botones luego de ejecutar
+    const [graphVisible, setGraphVisible] = useState(true); //Esatdo para controlar la visibilidad del grafico de complejidad temporal
+
     let nodeOrder = 1; // Contador para llevar el orden de creación de los nodos
 
     // Función para manejar cambios en la selección del algoritmo
     const handleAlgorithmChange = (event) => {
       setSelectedAlgorithm(event.target.value); // Actualiza el estado selectedAlgorithm con el valor seleccionado por el usuario
       setStep1Visible(true); // Avanza al paso 1
+      
     };
 
     const handleOptionChange = (event) => {
@@ -184,24 +188,34 @@ function HomePage() {
           setStep4Visible(true); // Avanza al paso 4
         }
         else if (selectedOption === 'COMPLEJIDAD_TEMPORAL'){
+          // Destruye el gráfico existente si existe
+          const existingChart = Chart.getChart("myChart");
+          if (existingChart) {
+            existingChart.destroy();
+          }
+
           const inputNumbers = document.getElementById('inputNumbers').value;
           const sizes = inputNumbers.split(',').map(Number);
           const executionTimes = [];
           runNQueensForDifferentSizes(sizes, executionTimes, setPrunedNodes, setSolutionNodes);
           
+          //LA PRIMERA VEZ EJECUTO TODO LO QUE SEA Y ANDA BIEN, DESPUES SI RENICIO Y QUIERO EJECUTAR DE NUEVO TIRA ERROR POR EL GETCONTEXT()
           const ctx = document.getElementById('myChart').getContext('2d');
           const chart = createExecutionTimeChart(ctx, sizes, executionTimes);
-          setStep4Visible(true); // Avanza al paso 4
+          setStep4Visible(true);
+          setGraphVisible(true);
         }
         else{
           alert('OPCION INCORRECTA');
         }
       }
+      setButtonsDisabled(true);
     };
 
     const handleReset = () => {
       setTreeData(null); // Borra el árbol
       setTreeVisible(false); // Oculta el árbol
+      setGraphVisible(false); // Oculta el grafico
       setPrunedNodes(0); // Reinicia el contador de nodos podados
       setSolutionNodes(0); // Reinicia el contador de nodos solución
       setExecutionTime(null); // Reinicia el tiempo de ejecución
@@ -210,6 +224,7 @@ function HomePage() {
       setSelectedResolution('');
       setInputNumbers('');
       setInputTarget('');
+      setButtonsDisabled(false);
       setStep1Visible(false);
       setStep2Visible(false);
       setStep3Visible(false);
@@ -240,7 +255,7 @@ function HomePage() {
           {step0Visible && (
             <section>
               <h2>Selecciona un Algoritmo</h2>
-              <select value={selectedAlgorithm} onChange={handleAlgorithmChange}>
+              <select value={selectedAlgorithm} onChange={handleAlgorithmChange} disabled={buttonsDisabled}>
                 <option value="">Algoritmos</option>
                   {algorithms.map((algorithm, index) => (
                 <option key={index} value={algorithm}>
@@ -258,8 +273,8 @@ function HomePage() {
           {step1Visible && (
             <section>
               <h2>Selecciona una opción para resolver el problema:</h2>
-              <button onClick={handleOptionChange} value="BACKTRACKING">BACKTRACKING</button>
-              <button onClick={handleOptionChange} value="COMPLEJIDAD_TEMPORAL">COMPLEJIDAD TEMPORAL</button>
+              <button onClick={handleOptionChange} value="BACKTRACKING" disabled={buttonsDisabled}>BACKTRACKING</button>
+              <button onClick={handleOptionChange} value="COMPLEJIDAD_TEMPORAL" disabled={buttonsDisabled}>COMPLEJIDAD TEMPORAL</button>
             </section>
           )}
 
@@ -396,9 +411,15 @@ function HomePage() {
               )}
             </section>
         )}
-        <canvas id="myChart" width="100" height="100"></canvas>
-        
-  
+        <section>
+          {graphVisible && (
+              <div className='graph' style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
+                <div className='graph-container'>
+                  <canvas id="myChart" width="700" height="500"></canvas>
+                </div>
+              </div>   
+          )}     
+        </section>
       </main>
       
       {referenceVisible && <ReferencePage onClose={closeReference} />}
