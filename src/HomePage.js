@@ -31,6 +31,7 @@ function HomePage() {
     const [selectedOption, setSelectedOption] = useState(''); // Estado para la selección de resolución del algoritmo
     const [inputNumbers, setInputNumbers] = useState('');
     const [inputTarget, setInputTarget] = useState('');
+    const [initialVisible, setInitialVisible] = useState(true);  //Para seccion de inicio
     const [step0Visible, setStep0Visible] = useState(true);
     const [step1Visible, setStep1Visible] = useState(false);
     const [step2Visible, setStep2Visible] = useState(false);
@@ -54,6 +55,7 @@ function HomePage() {
     // Función para manejar cambios en la selección del algoritmo
     const handleAlgorithmChange = (event) => {
       setSelectedAlgorithm(event.target.value); // Actualiza el estado selectedAlgorithm con el valor seleccionado por el usuario
+      setInitialVisible(false); // Oculta la sección inicial
       setStep1Visible(true); // Avanza al paso 1
       
     };
@@ -73,6 +75,7 @@ function HomePage() {
           setStep3Visible(true); // MODIFICAR LUEGO
         }
       }
+      setInitialVisible(false);
     };
   
     // Función para manejar cambios en la selección de la resolucion del algoritmo
@@ -251,8 +254,17 @@ function HomePage() {
         </header>
 
         <main>
+          {/* Mostrar seccion de inicio */}
+          {initialVisible && (
+            <section className="initial-section">
+              <div className="button-container">
+                <button onClick={handleOptionChange} value="BACKTRACKING" disabled={buttonsDisabled}>BACKTRACKING</button>
+                <button onClick={handleOptionChange} value="COMPLEJIDAD_TEMPORAL" disabled={buttonsDisabled}>COMPLEJIDAD TEMPORAL</button>
+              </div>
+            </section>
+          )}
           {/* Seleccion del algoritmo*/}
-          {step0Visible && (
+          {!initialVisible && (
             <section>
               <h2>Selecciona un Algoritmo</h2>
               <select value={selectedAlgorithm} onChange={handleAlgorithmChange} disabled={buttonsDisabled}>
@@ -268,16 +280,6 @@ function HomePage() {
               {selectedAlgorithm && <p>Has seleccionado: {selectedAlgorithm}</p>}
             </section>
           )}
-
-          {/* Mostrar el nuevo paso */}
-          {step1Visible && (
-            <section>
-              <h2>Selecciona una opción para resolver el problema:</h2>
-              <button onClick={handleOptionChange} value="BACKTRACKING" disabled={buttonsDisabled}>BACKTRACKING</button>
-              <button onClick={handleOptionChange} value="COMPLEJIDAD_TEMPORAL" disabled={buttonsDisabled}>COMPLEJIDAD TEMPORAL</button>
-            </section>
-          )}
-
           
           {/* Seleccion de resolucion*/}
           {step2Visible && (

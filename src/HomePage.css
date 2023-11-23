@@ -104,3 +104,72 @@
     margin: 0 auto; /* Centra el código horizontalmente en su contenedor */
     text-align: left;
   }
+
+  .initial-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .button-container {
+    background-color: var(--color-fondo);
+    display: flex;
+    place-items: center;
+    justify-content: space-around; /* Ajusta el espacio entre los botones */
+    margin-top: 10vh; /* Ajusta el margen superior */
+  }
+  
+  .button-container button {
+    margin-bottom: 10px;
+    padding: 20px;
+    font-size: 24px;
+    height: 60vh;
+    width: 20vw;
+    margin-right: 20px;
+    color: black;
+    cursor: pointer;
+    font-size: 1rem;
+    letter-spacing: 0.1rem; /* Ajusta el espaciado entre letras */
+    font-weight: 600;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.7s ease-out; /* Agrega una transición para un efecto suave */
+    z-index: 1; /* Establece un índice de apilamiento inicial */
+    line-height: 1.5; /* Ajusta la altura de línea para centrar el texto verticalmente */
+  }
+  
+  .button-container button:hover {
+    color: #ff9950;
+    transform: scale(1.1); /* Agrandar el botón al 110% del tamaño original */
+    z-index: 2; /* Establece un índice de apilamiento superior cuando el mouse está sobre el botón */
+    width: 25vw; /* Ajusta el ancho del botón al 110% del tamaño original */
+  }
+  
+  .button-container button svg {
+    height: 40px;
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 100%;
+  }
+  
+  .button-container button rect {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-dasharray: 450, 0;
+    transition: all 0.5s linear;
+  }
+  
+  .button-container button:hover rect {
+    stroke-width: 5;
+    stroke-dasharray: 20, 300;
+    stroke-dashoffset: 48;
+    stroke: #ff9950;
+    transition: all 2s cubic-bezier(0.22, 1, 0.25, 1);
+  }
+  
