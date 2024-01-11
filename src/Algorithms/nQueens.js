@@ -6,7 +6,7 @@ del vector. Se analiza que no haya reinas en la misma fila, columna o diagonal (
 
 import React, { useState } from 'react';  // Asegúrate de importar useState si no lo has hecho
 
-export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSolutionNodes, tree = []) => {
+export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSolutionNodes, tree = [], solutionsSet = new Set()) => {
   if (row === n) {
     setSolutionNodes((prevSolutionNodes) => prevSolutionNodes + 1);
     const queensPositions = board.map((row, rowIndex) => row.indexOf(1) + 1);
@@ -26,7 +26,7 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
   for (let col = 0; col < n; col++) {
     if (isSafe(board, row, col)) {
       currentRow[col] = 1; // Coloca una reina en esta posición
-      const child = generateNQueensTree(n, [...board], row + 1, setPrunedNodes, setSolutionNodes, []);
+      const child = generateNQueensTree(n, [...board], row + 1, setPrunedNodes, setSolutionNodes, [], solutionsSet);
       children.push(...child);
       currentRow[col] = 0; // Deshaz la decisión para explorar otras posibilidades
     }
@@ -82,6 +82,11 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
       }
     }
     return true;
+  };
+
+  // Función auxiliar para verificar si una solución ya existe en el árbol
+  const solutionExists = (tree, currentSolution) => {
+    return tree.some(node => node.attributes && node.attributes.Columnas === `(${currentSolution})`);
   };
 
 

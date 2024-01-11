@@ -9,25 +9,21 @@ import React, { useState } from 'react';  // Asegúrate de importar useState si 
 
 // Función para generar el árbol de espacio de soluciones binario sin poda
 export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
-    if (currentIndex === numbers.length) {
-      // Se ha alcanzado el final del conjunto de números
-      if (currentSum === targetSum) {
-        // Si la suma actual es igual al objetivo, es una solución
-        setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);
-        return [
-          {
-            name: `SOLUCION`,
-            attributes: {
-              Subconjunto: path.join(', '),
-              Suma: targetSum,
-            },
+    if (currentSum === targetSum) {
+      // Si la suma actual es igual al objetivo, es una solución
+      setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);
+      return [
+        {
+          name: `SOLUCION`,
+          attributes: {
+            Subconjunto: path.join(', '),
+            Suma: targetSum,
           },
-        ];
-      } else {
-        // No es una solución
-        setPrunedNodes(prevPrunedNodes => prevPrunedNodes + 1);
-        return [];
-      }
+        },
+      ];
+    }  
+    if (currentIndex > numbers.length) {
+      return [];
     }
 
     const currentNumber = numbers[currentIndex];
@@ -122,30 +118,27 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
 
 
   // Función para generar el árbol de espacio de soluciones binario con poda incluida
-  export const generateTreeData = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes, nodeOrder) => {
-    
-    if (currentIndex >= numbers.length || currentSum > targetSum) {
-      
-      setPrunedNodes(prevPrunedNodes => prevPrunedNodes + 1);     // Actualiza estado de nodos podados 
-      return [];
-    }
-    
-    const thisNodeOrder = nodeOrder++; // Obtén el orden actual y luego incrementa el contador
-
-    //Retorno para nodos solucion
-    if (currentSum === targetSum) {
-      setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);     // Actualiza estado de nodos solucion
-      return [
-        {
-          name: `SOLUCIÓN`,
-          attributes: { 
-            Subconjunto: path.join(', '), 
-            Suma: targetSum,
-            Orden: thisNodeOrder,
+  export const generateTreeData = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
+    if (currentIndex === numbers.length) {
+      // Se ha alcanzado el final del conjunto de números
+      if (currentSum === targetSum) {
+        // Si la suma actual es igual al objetivo, es una solución
+        setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);
+        return [
+          {
+            name: `SOLUCION`,
+            attributes: {
+              Subconjunto: path.join(', '),
+              Suma: targetSum,
+            },
           },
-        },
-      ];
-    } 
+        ];
+      } else {
+        // No es una solución
+        setPrunedNodes(prevPrunedNodes => prevPrunedNodes + 1);
+        return [];
+      }
+    }
 
     const currentNumber = numbers[currentIndex];
 
@@ -159,7 +152,6 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       includePath, 
       setPrunedNodes, 
       setSolutionNodes,
-      nodeOrder
     );
 
     // Excluir el número actual del subconjunto
@@ -171,16 +163,12 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       path,
       setPrunedNodes, 
       setSolutionNodes,
-      nodeOrder
     );
 
     //Retorno para nodos de transicion
     return [
       {
         name: `(${path.join(', ')})`,
-        attributes: { 
-          Orden: thisNodeOrder,
-        },
         children: [...excludeChildren, ...includeChildren],
       },
     ];

@@ -50,7 +50,6 @@ function HomePage() {
     const [buttonsDisabled, setButtonsDisabled] = useState(false); //Estado para controlar la habilitacion de los botones luego de ejecutar
     const [graphVisible, setGraphVisible] = useState(true); //Esatdo para controlar la visibilidad del grafico de complejidad temporal
 
-    let nodeOrder = 1; // Contador para llevar el orden de creación de los nodos
 
     // Función para manejar cambios en la selección del algoritmo
     const handleAlgorithmChange = (event) => {
@@ -155,13 +154,13 @@ function HomePage() {
           let newTreeData;
           if (selectedTreeType === 'generateTreeData') {
             if (selectedResolution === 'Con Poda') {
-              newTreeData = generateTreeData(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes, nodeOrder);
+              newTreeData = generateTreeData(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
             } else if (selectedResolution === 'Sin Poda') {
               newTreeData = generateTreeDataSinPoda(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
             }
           } else if (selectedTreeType === 'generateTreeDatanario') {
             if (selectedResolution === 'Con Poda') {
-              newTreeData = generateTreeDatanario(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes, nodeOrder);
+              newTreeData = generateTreeDatanario(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
             }
           }
           const end = performance.now(); // Tiempo final de ejecución
