@@ -51,29 +51,33 @@ function HomePage() {
     const [graphVisible, setGraphVisible] = useState(true); //Esatdo para controlar la visibilidad del grafico de complejidad temporal
 
 
-    // Función para manejar cambios en la selección del algoritmo
+        // Función para manejar cambios en la selección del algoritmo
     const handleAlgorithmChange = (event) => {
-      setSelectedAlgorithm(event.target.value); // Actualiza el estado selectedAlgorithm con el valor seleccionado por el usuario
-      setInitialVisible(false); // Oculta la sección inicial
-      setStep1Visible(true); // Avanza al paso 1
-      
+      setSelectedAlgorithm(event.target.value);
+
+      if (event.target.value === 'Suma de Subconjuntos') {
+        setStep1Visible(false); // Oculta la sección de opciones de algoritmo
+        setStep2Visible(true); // Muestra opciones de tipo de árbol y resolución
+      } else if (event.target.value === 'N-Reinas') {
+        setStep1Visible(false); // Oculta la sección de opciones de algoritmo
+        setStep3Visible(true); // Muestra sección de carga de parámetros
+      }
     };
 
     const handleOptionChange = (event) => {
-      if (event.target && event.target.value) {
-        const selectedValue = event.target.value;
-        setSelectedOption(selectedValue); // Actualiza el estado selectedOption con el valor seleccionado por el usuario
+      const selectedValue = event.target.value;
+      setSelectedOption(selectedValue);
     
-        if (selectedValue === 'BACKTRACKING') {
-          if (selectedAlgorithm ==='N-Reinas')
-            setStep3Visible(true); // Avanza al paso 3
-          else 
-            setStep2Visible(true); // Avanza al paso 2   
-        } else if (selectedValue === 'COMPLEJIDAD_TEMPORAL') {
-          // Realizar acciones para la opción COMPLEJIDAD_TEMPORAL
-          setStep3Visible(true); // MODIFICAR LUEGO
+      if (selectedValue === 'BACKTRACKING') {
+        if (selectedAlgorithm === 'N-Reinas') {
+          setStep3Visible(true); // Muestra sección de carga de parámetros
+        } else if (selectedAlgorithm === 'Suma de Subconjuntos') {
+          setStep2Visible(true); // Muestra opciones de tipo de árbol y resolución
         }
+      } else if (selectedValue === 'COMPLEJIDAD_TEMPORAL') {
+        setStep3Visible(true); // MODIFICAR LUEGO
       }
+    
       setInitialVisible(false);
     };
   
