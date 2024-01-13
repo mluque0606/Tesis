@@ -215,18 +215,19 @@ function HomePage() {
     };
 
     const handleReset = () => {
-      setTreeData(null); // Borra el árbol
-      setTreeVisible(false); // Oculta el árbol
-      setGraphVisible(false); // Oculta el grafico
-      setPrunedNodes(0); // Reinicia el contador de nodos podados
-      setSolutionNodes(0); // Reinicia el contador de nodos solución
-      setExecutionTime(null); // Reinicia el tiempo de ejecución
-      setResetVisible(true); // Muestra elementos antes de ejecutar
+      setTreeData(null);
+      setTreeVisible(false);
+      setGraphVisible(false);
+      setPrunedNodes(0);
+      setSolutionNodes(0);
+      setExecutionTime(null);
       setSelectedAlgorithm('');
       setSelectedResolution('');
       setInputNumbers('');
       setInputTarget('');
       setButtonsDisabled(false);
+      setInitialVisible(true);
+      setStep0Visible(true);
       setStep1Visible(false);
       setStep2Visible(false);
       setStep3Visible(false);
