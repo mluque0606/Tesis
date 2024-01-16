@@ -52,30 +52,36 @@ function HomePage() {
 
 
         // Función para manejar cambios en la selección del algoritmo
-    const handleAlgorithmChange = (event) => {
-      setSelectedAlgorithm(event.target.value);
-
-      if (event.target.value === 'Suma de Subconjuntos') {
-        setStep1Visible(false); // Oculta la sección de opciones de algoritmo
-        setStep2Visible(true); // Muestra opciones de tipo de árbol y resolución
-      } else if (event.target.value === 'N-Reinas') {
-        setStep1Visible(false); // Oculta la sección de opciones de algoritmo
-        setStep3Visible(true); // Muestra sección de carga de parámetros
-      }
-    };
+        const handleAlgorithmChange = (event) => {
+          setSelectedAlgorithm(event.target.value);
+        
+          if (event.target.value === 'Suma de Subconjuntos') {
+            setStep1Visible(false); // Oculta la sección de opciones de algoritmo
+            setStep2Visible(true); // Muestra opciones de tipo de árbol y resolución
+            setStep3Visible(false); // Oculta la sección de carga de parámetros para N-Reinas
+          } else if (event.target.value === 'N-Reinas') {
+            setStep1Visible(false); // Oculta la sección de opciones de algoritmo
+            setStep2Visible(false); // Oculta opciones de tipo de árbol y resolución
+            setStep3Visible(true); // Muestra sección de carga de parámetros
+          }
+        };
 
     const handleOptionChange = (event) => {
       const selectedValue = event.target.value;
       setSelectedOption(selectedValue);
     
+      // Restablecer la selección del algoritmo y otros estados relacionados con el algoritmo
+      setSelectedAlgorithm('');
+      setSelectedTreeType('');
+      setSelectedResolution('');
+      setInputNumbers('');
+      setInputTarget('');
+    
       if (selectedValue === 'BACKTRACKING') {
-        if (selectedAlgorithm === 'N-Reinas') {
-          setStep3Visible(true); // Muestra sección de carga de parámetros
-        } else if (selectedAlgorithm === 'Suma de Subconjuntos') {
-          setStep2Visible(true); // Muestra opciones de tipo de árbol y resolución
-        }
+        setStep3Visible(true); // Muestra sección de carga de parámetros
       } else if (selectedValue === 'COMPLEJIDAD_TEMPORAL') {
-        setStep3Visible(true); // MODIFICAR LUEGO
+        // Modificar según sea necesario
+        setStep3Visible(true);
       }
     
       setInitialVisible(false);
