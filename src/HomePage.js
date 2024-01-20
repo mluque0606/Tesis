@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Tree from 'react-d3-tree';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUndo, faPlay } from "@fortawesome/free-solid-svg-icons"; // Reemplaza "faCoffee" con el icono que desees utilizar.
-import { generateTreeDataSinPoda, generateTreeDatanario, generateTreeData } from './Algorithms/sumOfSubsets';
+import { generateTreeDataSinPoda, generateTreeDatanario, generateTreeData, generateTreeDatanarioSinPoda } from './Algorithms/sumOfSubsets';
 import { generateNQueensTree, runNQueensForDifferentSizes } from './Algorithms/nQueens';
 import { createExecutionTimeChart } from './TimeComplexity';
 import './HomePage.css'; // Agrega los estilos a la pagina de inicio
@@ -171,6 +171,7 @@ function HomePage() {
           } else if (selectedTreeType === 'generateTreeDatanario') {
             if (selectedResolution === 'Con Poda') {
               newTreeData = generateTreeDatanario(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
+
             }
           }
           const end = performance.now(); // Tiempo final de ejecución
