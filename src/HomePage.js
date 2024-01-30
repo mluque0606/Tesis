@@ -500,7 +500,16 @@ function HomePage() {
                       </div>
                       <div>
                         {selectedOption === "BACKTRACKING" && selectedAlgorithm === "N-Reinas" && (
-                          <button onClick={handleShowChessboardInNewWindow}>Ver Soluciones</button>
+                          <button 
+                            onClick={handleShowChessboardInNewWindow} 
+                            disabled={parseFloat(document.getElementById('inputTarget').value) > 6}
+                            title={
+                              parseFloat(document.getElementById('inputTarget').value) > 6
+                                ? "Solo disponible hasta 6 reinas"
+                                : ""
+                            }
+                            >Ver Soluciones
+                          </button>
                         )}   
                       </div>
                       <p>Nodos Podados: {prunedNodes}</p>
