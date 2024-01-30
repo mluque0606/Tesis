@@ -143,10 +143,12 @@
   }
   
   .button-container button:hover {
-    color: #ff9950;
+    color: #ffffff;
     transform: scale(1.1); /* Agrandar el botón al 110% del tamaño original */
     z-index: 2; /* Establece un índice de apilamiento superior cuando el mouse está sobre el botón */
     width: 25vw; /* Ajusta el ancho del botón al 110% del tamaño original */
+    background: linear-gradient(to bottom, #8eff9c, #9fe4fc); /* Ejemplo de colores, ajusta según tus preferencias */
+    font-size: 36px;
   }
   
   .button-container button svg {
