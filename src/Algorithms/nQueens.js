@@ -14,7 +14,7 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
       name: 'SOLUCION',
       attributes: {
         'Columnas': '(' + queensPositions.join(', ') + ')',
-      },
+      }
     }];
   }
 
@@ -52,6 +52,7 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
   }
   return tree;
 };
+
 
   const isSafe = (board, row, col) => {
     // Verifica la fila actual hacia la izquierda

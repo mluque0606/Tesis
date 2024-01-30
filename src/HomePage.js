@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom'; // Asegúrate de importar ReactDOM
 import { Link } from 'react-router-dom';
 import ReferencePage from './ReferencePage'; // Importa la página de referencia
 import HelpPage from './HelpPage'; // Importa la página de ayuda
@@ -11,6 +12,8 @@ import { generateNQueensTree, runNQueensForDifferentSizes } from './Algorithms/n
 import { createExecutionTimeChart } from './TimeComplexity';
 import './HomePage.css'; // Agrega los estilos a la pagina de inicio
 import Chart from 'chart.js/auto'; //Agregado para el grafico de complejidad temporal
+import Chessboard from './Chessboard';
+
 
 
 function HomePage() {
@@ -49,22 +52,33 @@ function HomePage() {
 
     const [buttonsDisabled, setButtonsDisabled] = useState(false); //Estado para controlar la habilitacion de los botones luego de ejecutar
     const [graphVisible, setGraphVisible] = useState(true); //Esatdo para controlar la visibilidad del grafico de complejidad temporal
+    const [isChessboardVisible, setChessboardVisible] = useState(false); //Estado para controlar la visbilidad del tablero
+
+    //Esstructura que contiene las soluciones de n-reinas. El indice es el tamaño y el array las soluciones
+    const [datos, setDatos] = useState({
+      4: [2,4,1,3, 3,1,4,2],
+      5: [1,3,5,2,4, 1,4,2,5,3, 2,4,1,3,5, 2,5,3,1,4, 3,1,4,2,5, 3,5,2,4,1, 4,1,3,5,2, 4,2,5,3,1, 5,2,4,1,3, 5,3,1,4,2],
+      6: [2,4,6,1,3,5, 3,6,2,5,1,4, 4,1,5,2,6,3, 5,3,1,6,4,2], 
+    });
 
 
-        // Función para manejar cambios en la selección del algoritmo
-        const handleAlgorithmChange = (event) => {
-          setSelectedAlgorithm(event.target.value);
-        
-          if (event.target.value === 'Suma de Subconjuntos') {
-            setStep1Visible(false); // Oculta la sección de opciones de algoritmo
-            setStep2Visible(true); // Muestra opciones de tipo de árbol y resolución
-            setStep3Visible(false); // Oculta la sección de carga de parámetros para N-Reinas
-          } else if (event.target.value === 'N-Reinas') {
-            setStep1Visible(false); // Oculta la sección de opciones de algoritmo
-            setStep2Visible(false); // Oculta opciones de tipo de árbol y resolución
-            setStep3Visible(true); // Muestra sección de carga de parámetros
-          }
-        };
+    const queensPositions = [];
+
+
+    // Función para manejar cambios en la selección del algoritmo
+    const handleAlgorithmChange = (event) => {
+      setSelectedAlgorithm(event.target.value);
+    
+      if (event.target.value === 'Suma de Subconjuntos') {
+        setStep1Visible(false); // Oculta la sección de opciones de algoritmo
+        setStep2Visible(true); // Muestra opciones de tipo de árbol y resolución
+        setStep3Visible(false); // Oculta la sección de carga de parámetros para N-Reinas
+      } else if (event.target.value === 'N-Reinas') {
+        setStep1Visible(false); // Oculta la sección de opciones de algoritmo
+        setStep2Visible(false); // Oculta opciones de tipo de árbol y resolución
+        setStep3Visible(true); // Muestra sección de carga de parámetros
+      }
+    };
 
     const handleOptionChange = (event) => {
       const selectedValue = event.target.value;
@@ -104,6 +118,55 @@ function HomePage() {
      //Agregado para seleccionar el tipo de arbol a generar
      const handleTreeTypeChange = (event) => {
       setSelectedTreeType(event.target.value);
+    };
+
+    //Agregado para visualizar las soluciones en tablero de ajedrez
+    const handleShowChessboardInNewWindow = () => {
+      //Busco el centro de la pantalla
+      const screen = window.screen;
+      const screenWidth = screen.width;
+      const screenHeight = screen.height;
+      const windowWidth = 400;
+      const windowHeight = 400;
+      const left = (screenWidth - windowWidth) / 2;
+      const top = (screenHeight - windowHeight) / 2;
+      const cantReinas = parseFloat(document.getElementById('inputTarget').value);
+      
+      if ((cantReinas >= 4) && (cantReinas <= 6)) {
+        const arreglo = datos[cantReinas];
+        const totalTableros = arreglo.length / cantReinas;
+      
+        // Abre una nueva ventana
+        const newWindow = window.open('', '_blank', `width=${windowWidth},height=${windowHeight},left=${left},top=${top}`);
+          
+        if (newWindow) {
+          newWindow.document.write('<html><head><title>Chessboard</title>');
+          newWindow.document.write('<style>');
+          newWindow.document.write('body { font-family: "Arial", sans-serif; margin: 20px; background-color: #CEDEBD; color: #435334; overflow: auto;}');
+          newWindow.document.write('.chessboard-container { margin: 20px; display: inline-block; float: left; }');
+          newWindow.document.write('h1 { text-align: center; }');
+          newWindow.document.write('</style></head><body>');
+          newWindow.document.write('<h1>Tablero</h1>');
+          newWindow.document.write('<div id="chessboard-container"></div>');
+          newWindow.document.write('</body></html>');
+      
+          for (let i = 0; i < totalTableros; i++) {
+            // Crea un contenedor para cada tablero en la nueva ventana
+            newWindow.document.write(`<div class="chessboard-container" id="chessboard-container-${i}"></div>`);
+      
+            // Obtiene el contenedor recién creado
+            const chessboardContainer = newWindow.document.getElementById(`chessboard-container-${i}`);
+      
+            // Renderiza el tablero en el contenedor
+            ReactDOM.render(
+              <Chessboard size={cantReinas} queens={arreglo.slice(i * cantReinas, (i + 1) * cantReinas)} />,
+              chessboardContainer
+            );          
+          };
+      
+          newWindow.document.write('</body></html>');
+        }
+      }
     };
 
     //Abrir pestaña emergente REFERENCIA
@@ -191,7 +254,7 @@ function HomePage() {
           let newTreeData;
           const initialBoard = Array.from({ length: inputTarget }, () => Array(inputTarget).fill(0));
           newTreeData = generateNQueensTree(inputTarget, initialBoard, 0, setPrunedNodes, setSolutionNodes);
-
+          
           const end = performance.now(); // Tiempo final de ejecución
           const timeTaken = (end - start).toFixed(5); // Tiempo de ejecución en milisegundos
           setExecutionTime(timeTaken);
@@ -199,6 +262,7 @@ function HomePage() {
           setTreeData(newTreeData);
           setTreeVisible(true); // Mostrar el árbol cuando se presiona el botón de ejecutar
           setStep4Visible(true); // Avanza al paso 4
+
         }
         else if (selectedOption === 'COMPLEJIDAD_TEMPORAL'){
           // Destruye el gráfico existente si existe
@@ -416,6 +480,9 @@ function HomePage() {
                               orientation="vertical" 
                               translate={{ x: 300, y: 300 }} 
                           />
+                      </div>
+                      <div>
+                        <button onClick={handleShowChessboardInNewWindow}>Ver Soluciones</button>
                       </div>
                       <p>Nodos Podados: {prunedNodes}</p>
                       <p>Nodos Solucion: {solutionNodes}</p>
