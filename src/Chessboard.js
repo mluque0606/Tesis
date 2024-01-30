@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const Chessboard = ({ size, queens }) => {
   const [board, setBoard] = useState(generateEmptyBoard(size));
 
@@ -13,7 +14,6 @@ const Chessboard = ({ size, queens }) => {
     const newBoard = generateEmptyBoard(size);
 
     queens.forEach((queen, row) => {
-      //newBoard[row][queen-1] = 'D:/Git/Tesis BL/Tesis/src/Images/queen.png';  ACA MANEJAR LA IMAGEN DE REINA A AGREGAR
       newBoard[row][queen-1] = 'Q';
     });
 
@@ -26,7 +26,7 @@ const Chessboard = ({ size, queens }) => {
   }, [queens]);
 
   return (
-    <div style={{ border: '1px solid #000', display: 'inline-block' }}>
+    <div style={{ border: '1px solid #000', display: 'inline-block', fontSize: '24px' }}>
       {board.map((row, rowIndex) => (
         <div key={rowIndex} style={{ display: 'flex' }}>
           {row.map((cell, colIndex) => (
@@ -41,10 +41,10 @@ const Chessboard = ({ size, queens }) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 border: '1px solid #000', // Agregar borde a cada celda
+                fontWeight: cell === 'Q' ? 'bold' : 'normal', // Texto en negrita para la "Q"
               }}
             >
-              {/* Mostrar la imagen si hay una ruta definida */}
-              {cell && <img src={cell} alt="Queen" style={{ width: '100%', height: '100%' }} />}  
+              {cell}  
             </div>
           ))}
         </div>

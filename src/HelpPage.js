@@ -23,8 +23,7 @@ function HelpPage({ onClose }) {
             </main>
 
             <footer>
-                <p>Barbieri, Walter Joaquín</p>
-                <p>Luque, Mauro Manuel</p>
+
             </footer>
         </div>
     );

@@ -36,7 +36,7 @@ function ReferencePage({ onClose }) {
                 <h1>BACKTRACKING</h1>
             </header>
 
-            <main>
+            <main style={{ textAlign: 'left', margin: '20px' }}>
                 <section>
                     <h2> Características del problema: </h2>
                     <div className='reference-characteristics'>
@@ -103,8 +103,8 @@ function ReferencePage({ onClose }) {
             </main>
 
             <footer>
-                <p>Barbieri, Walter Joaquín</p>
-                <p>Luque, Mauro Manuel</p>
+                <p>Cormen, T.; Lieserson, C.; Rivest, R.; Stein, C. Introduction to Algorithms, Fourth Edition. The deMit Press, 2022.</p>
+                <p>Horowitz, E.; Sahni, S.; Rajasekaran, S. Computer Algorithms / C++. Silicon Press; 2 edition, 2007.</p>
             </footer>
         </div>
     );

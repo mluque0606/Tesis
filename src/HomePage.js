@@ -53,6 +53,8 @@ function HomePage() {
     const [buttonsDisabled, setButtonsDisabled] = useState(false); //Estado para controlar la habilitacion de los botones luego de ejecutar
     const [graphVisible, setGraphVisible] = useState(true); //Esatdo para controlar la visibilidad del grafico de complejidad temporal
     const [isChessboardVisible, setChessboardVisible] = useState(false); //Estado para controlar la visbilidad del tablero
+    const [chessboardWindow, setChessboardWindow] = useState(null);
+
 
     //Esstructura que contiene las soluciones de n-reinas. El indice es el tamaño y el array las soluciones
     const [datos, setDatos] = useState({
@@ -140,13 +142,15 @@ function HomePage() {
         const newWindow = window.open('', '_blank', `width=${windowWidth},height=${windowHeight},left=${left},top=${top}`);
           
         if (newWindow) {
+          setChessboardWindow(newWindow);  // Almacena la referencia de la ventana emergente
           newWindow.document.write('<html><head><title>Chessboard</title>');
           newWindow.document.write('<style>');
           newWindow.document.write('body { font-family: "Arial", sans-serif; margin: 20px; background-color: #CEDEBD; color: #435334; overflow: auto;}');
           newWindow.document.write('.chessboard-container { margin: 20px; display: inline-block; float: left; }');
           newWindow.document.write('h1 { text-align: center; }');
           newWindow.document.write('</style></head><body>');
-          newWindow.document.write('<h1>Tablero</h1>');
+          newWindow.document.write('<h1>Tableros</h1>');
+          newWindow.document.write('<p>Cantidad de Reinas: ' + cantReinas + ', Cantidad de Soluciones: ' + totalTableros + '</p>');
           newWindow.document.write('<div id="chessboard-container"></div>');
           newWindow.document.write('</body></html>');
       
@@ -212,6 +216,10 @@ function HomePage() {
       //Inicializo metricas
       setSolutionNodes(prevSolutionNodes => 0);
       setPrunedNodes(prevPrunedNodes => 0);
+      if (chessboardWindow) {
+        chessboardWindow.close();
+        setChessboardWindow(null);
+      }
 
       if (selectedAlgorithm=='Suma de Subconjuntos')
       {
@@ -307,6 +315,10 @@ function HomePage() {
       setStep2Visible(false);
       setStep3Visible(false);
       setStep4Visible(false);
+      if (chessboardWindow) {
+        chessboardWindow.close();
+        setChessboardWindow(null);
+      }
     };
 
     return (
@@ -325,7 +337,7 @@ function HomePage() {
         {/* Contenido de la página principal */}
         
         <header>
-            <h1>TITULO PRINCIPAL</h1>
+            <h1>BACK SOLUTION</h1>
         </header>
 
         <main>
@@ -344,11 +356,15 @@ function HomePage() {
               <h2>Selecciona un Algoritmo</h2>
               <select value={selectedAlgorithm} onChange={handleAlgorithmChange} disabled={buttonsDisabled}>
                 <option value="">Algoritmos</option>
-                  {algorithms.map((algorithm, index) => (
-                <option key={index} value={algorithm}>
-                  {algorithm}
-                </option>
-                ))}
+                {selectedOption === "BACKTRACKING" ? (
+                  algorithms.map((algorithm, index) => (
+                    <option key={index} value={algorithm}>
+                      {algorithm}
+                    </option>
+                  ))
+                ) : (
+                  <option value="N-Reinas">N-Reinas</option>
+                )}
               </select>
 
               {/* Mostrar la selección del algoritmo*/}
@@ -482,7 +498,9 @@ function HomePage() {
                           />
                       </div>
                       <div>
-                        <button onClick={handleShowChessboardInNewWindow}>Ver Soluciones</button>
+                        {selectedOption === "BACKTRACKING" && selectedAlgorithm === "N-Reinas" && (
+                          <button onClick={handleShowChessboardInNewWindow}>Ver Soluciones</button>
+                        )}   
                       </div>
                       <p>Nodos Podados: {prunedNodes}</p>
                       <p>Nodos Solucion: {solutionNodes}</p>
