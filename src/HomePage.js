@@ -336,8 +336,8 @@ function HomePage() {
 
         {/* Contenido de la página principal */}
         
-        <header style={{ background: 'linear-gradient(to top, #CEDEBD, #FAF1E4)', padding: '20px', textAlign: 'center', color: '#fff' }}>
-            <h1 style={{ margin: 0 }}>BACK SOLUTION</h1>
+        <header style={{ background: 'linear-gradient(to top, #CEDEBD, #FAF1E4)', padding: '20px', textAlign: 'center', color: '#fff' }} onClick={handleReset}>
+            <h1 style={{ margin: 0, cursor: 'pointer'  }}>BACK SOLUTION</h1>
         </header>
 
 

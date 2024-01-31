@@ -93,6 +93,23 @@
     }
   }
 
+   /*HELP PAGE*/ 
+  /* Estilos para la página de ayuda */
+.help-page {
+  /* Características principales */
+    .help-characteristics {
+    list-style-type: none; /* Elimina los números de la lista */
+    padding-left: 0; /* Elimina el espacio izquierdo por defecto */
+
+    p {
+      display: block; /* Cambia la visualización de los elementos a "block" */
+      text-align: left; /* Centra el texto horizontalmente */
+      padding-left: 20%; /* Agrega un padding izquierdo para que todos comiencen desde el mismo lugar */
+      color: var(--color-texto); /* Usa la variable de color */
+    }
+  }
+}
+
   /* Estilos específicos para el componente CodeSnippet */
 .code-snippet {
     background-color: #FAF1E4; /* color cremita */ /* Color de fondo del código */
