@@ -6,7 +6,7 @@ import HelpPage from './HelpPage'; // Importa la página de ayuda
 import { useState } from 'react';
 import Tree from 'react-d3-tree';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUndo, faPlay, faChessQueen } from "@fortawesome/free-solid-svg-icons";
+import { faUndo, faPlay, faChessBoard } from "@fortawesome/free-solid-svg-icons";
 import { generateTreeDataSinPoda, generateTreeDatanario, generateTreeData, generateTreeDatanarioSinPoda } from './Algorithms/sumOfSubsets';
 import { generateNQueensTree, runNQueensForDifferentSizes } from './Algorithms/nQueens';
 import { createExecutionTimeChart } from './TimeComplexity';
@@ -508,8 +508,9 @@ function HomePage() {
                                 ? "Solo disponible hasta 6 reinas"
                                 : ""
                             }
-                            >Ver Soluciones
-                          </button>
+                            >      
+                              <FontAwesomeIcon icon={faChessBoard} /> Ver Soluciones
+                            </button>
                         )}   
                       </div>
                       <p>Nodos Podados: {prunedNodes}</p>
