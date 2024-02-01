@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChessQueen } from "@fortawesome/free-solid-svg-icons";
 
 
 const Chessboard = ({ size, queens }) => {
@@ -41,10 +43,9 @@ const Chessboard = ({ size, queens }) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 border: '1px solid #000', // Agregar borde a cada celda
-                fontWeight: cell === 'Q' ? 'bold' : 'normal', // Texto en negrita para la "Q"
               }}
             >
-              {cell}  
+              {cell === 'Q' && <FontAwesomeIcon icon={faChessQueen} style={{ fontSize: '0.8em', width: '75%', height: '75%' }} />}
             </div>
           ))}
         </div>

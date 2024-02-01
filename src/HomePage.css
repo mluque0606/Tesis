@@ -112,6 +112,7 @@
 
   /* Estilos específicos para el componente CodeSnippet */
 .code-snippet {
+    text-align: left;
     background-color: #FAF1E4; /* color cremita */ /* Color de fondo del código */
     padding: 10px; /* Espaciado alrededor del código */
     border: 1px solid #ccc; /* Borde alrededor del código */
@@ -119,7 +120,6 @@
     overflow: auto; /* Agrega una barra de desplazamiento si el código es largo */
     max-width: 800px; /* Ancho máximo del código */
     margin: 0 auto; /* Centra el código horizontalmente en su contenedor */
-    text-align: left;
   }
 
   .initial-section {

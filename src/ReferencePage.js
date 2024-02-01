@@ -92,7 +92,7 @@ function ReferencePage({ onClose }) {
 
               <section>
                 <h2>Esquema general:</h2>
-                <CodeSnippet />
+                  <CodeSnippet />
               </section>
 
               <section>
