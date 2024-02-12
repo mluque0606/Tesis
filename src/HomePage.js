@@ -45,6 +45,7 @@ function HomePage() {
     const [treeVisible, setTreeVisible] = useState(false); // Nuevo estado para controlar la visibilidad del árbol
     const [prunedNodes, setPrunedNodes] = useState(0);   //Estado para conteo de nodos podados
     const [solutionNodes, setSolutionNodes] = useState(0);   //Estado para conteo de nodos solución
+    const [generatedNodes, setGeneratedNodes] = useState(0);   //Estado para conteo de nodos solución
     const [treeData, setTreeData] = useState(null); //Ocultar o desocultar el gráfico
     const [executionTime, setExecutionTime] = useState(null); //Tiempo de ejecución
 
@@ -216,6 +217,7 @@ function HomePage() {
       //Inicializo metricas
       setSolutionNodes(prevSolutionNodes => 0);
       setPrunedNodes(prevPrunedNodes => 0);
+      setGeneratedNodes(prevGeneratedNodes => 0);
       if (chessboardWindow) {
         chessboardWindow.close();
         setChessboardWindow(null);
@@ -234,11 +236,15 @@ function HomePage() {
           const start = performance.now(); // Tiempo inicial de ejecución
           let newTreeData;
           if (selectedTreeType === 'generateTreeData') {
+            const nodeCountObj = {
+              value: 1, // El contador de nodos
+            };
             if (selectedResolution === 'Con Poda') {
-              newTreeData = generateTreeData(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
+              newTreeData = generateTreeData(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes, nodeCountObj);
             } else if (selectedResolution === 'Sin Poda') {
-              newTreeData = generateTreeDataSinPoda(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
+              newTreeData = generateTreeDataSinPoda(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes, nodeCountObj);
             }
+            setGeneratedNodes(--nodeCountObj.value);
           } else if (selectedTreeType === 'generateTreeDatanario') {
             if (selectedResolution === 'Con Poda') {
               newTreeData = generateTreeDatanario(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
@@ -303,6 +309,7 @@ function HomePage() {
       setGraphVisible(false);
       setPrunedNodes(0);
       setSolutionNodes(0);
+      setGeneratedNodes(0);
       setExecutionTime(null);
       setSelectedAlgorithm('');
       setSelectedResolution('');
@@ -513,6 +520,7 @@ function HomePage() {
                             </button>
                         )}   
                       </div>
+                      {generatedNodes !== 0 && <p>Nodos Generados: {generatedNodes}</p>}
                       <p>Nodos Podados: {prunedNodes}</p>
                       <p>Nodos Solucion: {solutionNodes}</p>
                       <p>Tiempo de ejecución: {executionTime} ms</p>

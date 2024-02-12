@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 
 
 // Función para generar el árbol de espacio de soluciones binario sin poda
-export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
+export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes, nodeCountObj) => {
     if (currentSum === targetSum) {
       // Si la suma actual es igual al objetivo, es una solución
       setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);
@@ -18,6 +18,7 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
           attributes: {
             Subconjunto: path.join(', '),
             Suma: targetSum,
+            Orden: nodeCountObj.value++,
           },
         },
       ];
@@ -35,7 +36,8 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       currentIndex + 1,
       includePath,
       setPrunedNodes, 
-      setSolutionNodes
+      setSolutionNodes,
+      nodeCountObj
     );
 
     const excludeChild = generateTreeDataSinPoda(
@@ -45,13 +47,17 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       currentIndex + 1,
       path,
       setPrunedNodes, 
-      setSolutionNodes
+      setSolutionNodes,
+      nodeCountObj
     );
 
     // Retorno para nodos de transición
     return [
       {
         name: `(${path.join(', ')})`,
+        attributes: {
+          Orden: nodeCountObj.value++,
+        },
         children: [...excludeChild, ...includeChild],
       },
     ];
@@ -90,7 +96,7 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
         i + 1,
         includePath, 
         setPrunedNodes, 
-        setSolutionNodes
+        setSolutionNodes,
       );
       children.push(...includeChild);
     }
@@ -103,7 +109,7 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       numbers.length,
       path,
       setPrunedNodes, 
-      setSolutionNodes
+      setSolutionNodes, 
     );
     children.push(...excludeChild);
   
@@ -116,8 +122,8 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
     ];
   };
 
-  // Función para generar el árbol de espacio de soluciones binario con poda incluida
-  export const generateTreeData = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
+  // Función para generar el árbol de espacio de soluciones binario con poda incluida, agregado el numero de orden decreciente
+  export const generateTreeData = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes, nodeCountObj) => {
     if (currentIndex === numbers.length) {
       // Se ha alcanzado el final del conjunto de números
       if (currentSum === targetSum) {
@@ -129,6 +135,7 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
             attributes: {
               Subconjunto: path.join(', '),
               Suma: targetSum,
+              Orden: nodeCountObj.value++,
             },
           },
         ];
@@ -151,7 +158,8 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       includePath, 
       setPrunedNodes, 
       setSolutionNodes,
-    );
+      nodeCountObj,
+      );
 
     // Excluir el número actual del subconjunto
     const excludeChildren = generateTreeData(
@@ -162,12 +170,16 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       path,
       setPrunedNodes, 
       setSolutionNodes,
-    );
+      nodeCountObj,
+      );
 
-    //Retorno para nodos de transicion
+      //Retorno para nodos de transicion
     return [
       {
         name: `(${path.join(', ')})`,
+        attributes: {
+                Orden: nodeCountObj.value++,
+        },
         children: [...excludeChildren, ...includeChildren],
       },
     ];
