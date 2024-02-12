@@ -326,6 +326,7 @@ function HomePage() {
         chessboardWindow.close();
         setChessboardWindow(null);
       }
+      window.location.reload();
     };
 
     return (
