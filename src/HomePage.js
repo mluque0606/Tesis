@@ -52,7 +52,8 @@ function HomePage() {
     const [selectedTreeType, setSelectedTreeType] = useState(''); //Usado para elegir entre arbol binario o n-ario
 
     const [buttonsDisabled, setButtonsDisabled] = useState(false); //Estado para controlar la habilitacion de los botones luego de ejecutar
-    const [graphVisible, setGraphVisible] = useState(true); //Esatdo para controlar la visibilidad del grafico de complejidad temporal
+    const [graphVisible, setGraphVisible] = useState(false); //Esatdo para controlar la visibilidad del grafico de complejidad temporal
+    const [descriptionVisible, setDescriptionVisible] = useState(false); //Esatdo para controlar la visibilidad de la descripcion del grafico de complejidad
     const [isChessboardVisible, setChessboardVisible] = useState(false); //Estado para controlar la visbilidad del tablero
     const [chessboardWindow, setChessboardWindow] = useState(null);
 
@@ -99,6 +100,7 @@ function HomePage() {
       } else if (selectedValue === 'COMPLEJIDAD_TEMPORAL') {
         // Modificar según sea necesario
         setStep3Visible(true);
+        setGraphVisible(true);
       }
     
       setInitialVisible(false);
@@ -280,7 +282,7 @@ function HomePage() {
         }
         else if (selectedOption === 'COMPLEJIDAD_TEMPORAL'){
           // Destruye el gráfico existente si existe
-          const existingChart = Chart.getChart("myChart");
+          const existingChart = Chart.getChart("myChart1");
           if (existingChart) {
             existingChart.destroy();
           }
@@ -290,11 +292,15 @@ function HomePage() {
           const executionTimes = [];
           runNQueensForDifferentSizes(sizes, executionTimes, setPrunedNodes, setSolutionNodes);
           
-          //LA PRIMERA VEZ EJECUTO TODO LO QUE SEA Y ANDA BIEN, DESPUES SI RENICIO Y QUIERO EJECUTAR DE NUEVO TIRA ERROR POR EL GETCONTEXT()
-          const ctx = document.getElementById('myChart').getContext('2d');
-          const chart = createExecutionTimeChart(ctx, sizes, executionTimes);
+          //const ctx = document.getElementById('myChart').getContext('2d');
+          const ctx1 = document.getElementById('myChart1').getContext('2d');
+          const ctx2 = document.getElementById('myChart2').getContext('2d');
+
+          //const chart = createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes);
+          const [chart, chartTheoretical] = createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes);
           setStep4Visible(true);
           setGraphVisible(true);
+          setDescriptionVisible(true);
         }
         else{
           alert('OPCION INCORRECTA');
@@ -307,6 +313,7 @@ function HomePage() {
       setTreeData(null);
       setTreeVisible(false);
       setGraphVisible(false);
+      setDescriptionVisible(false);
       setPrunedNodes(0);
       setSolutionNodes(0);
       setGeneratedNodes(0);
@@ -531,12 +538,23 @@ function HomePage() {
         )}
         <section>
           {graphVisible && (
-              <div className='graph' style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
-                <div className='graph-container'>
-                  <canvas id="myChart" width="700" height="500"></canvas>
-                </div>
-              </div>   
-          )}     
+            <div className='graph' style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
+              <div className='graph-container'>
+                {descriptionVisible && (
+                  <p style={{ maxWidth: '700px', padding: '10px', textAlign: 'justify' }}>
+                    El análisis empírico se encarga de medir cuánto tiempo realmente tarda un algoritmo en ejecutarse en situaciones reales utilizando datos de entrada reales, es decir, es dependiente del hardware y su contexto.
+                  </p>
+                )}
+                <canvas id="myChart1" width="700" height="500" style={{ marginBottom: '20px' }}></canvas>
+                {descriptionVisible && (
+                  <p style={{ maxWidth: '700px', padding: '10px', textAlign: 'justify' }}>
+                    El análisis teoricos considera el número de operaciones que realiza el algoritmo en función del tamaño de la entrada. La complejidad temporal teórica es utilizada para comparar algoritmos y determinar cuál es más eficiente en términos de cantidad de operaciones realizadas.
+                  </p>
+                )}
+                <canvas id="myChart2" width="700" height="500" style={{ marginBottom: '20px' }}></canvas>
+              </div>
+            </div>
+          )}
         </section>
       </main>
       

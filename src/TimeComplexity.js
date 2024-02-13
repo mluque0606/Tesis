@@ -4,14 +4,29 @@ tamaños de entrada y los tiempo de ejecucion correspondientes
 */
 import Chart from 'chart.js/auto';
 
-export function createExecutionTimeChart(ctx, sizes, executionTimes) {
-  return new Chart(ctx, {
+// Función para calcular el factorial de un número
+function factorial(n) {
+  if (n === 0 || n === 1) {
+    return 1;
+  } else {
+    return n * factorial(n - 1);
+  }
+}
+
+// Crear un arreglo de tamaños de entrada hasta cierto límite
+const tam = [];
+for (let i = 1; i <= 10; i++) { // Aquí limitamos el tamaño de entrada hasta 10
+  tam.push(i);
+}
+
+export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes) {
+  const chartEmpirico = new Chart(ctx1, {
     type: 'line',  // Tipo de gráfico. En este caso, es un gráfico de línea.
     data: {
       labels: sizes,  // Etiquetas en el eje X. En este caso, representan los tamaños de entrada.
       datasets: [
         {
-          label: 'Complejidad Temporal',  // Etiqueta para el conjunto de datos.
+          label: 'Complejidad Temporal Empírica', // Etiqueta para el conjunto de datos.
           data: executionTimes,  // Datos en el eje Y. En este caso, representan los tiempos de ejecución.
           borderColor: 'rgba(75, 192, 192, 1)',  // Color del borde de la línea del gráfico.
           borderWidth: 2,  // Ancho del borde de la línea del gráfico.
@@ -40,4 +55,44 @@ export function createExecutionTimeChart(ctx, sizes, executionTimes) {
       },
     },
   });
+
+  // Calcular los valores de n!
+  const valores = tam.map(n => factorial(n));
+
+  const chartTeorico = new Chart(ctx2, {
+    type: 'line',  // Tipo de gráfico. En este caso, es un gráfico de línea.
+    data: {
+      labels: tam,  // Etiquetas en el eje X. En este caso, representan los tamaños de entrada.
+      datasets: [
+        {
+          label: 'Complejidad Temporal Teorica',  // Etiqueta para el conjunto de datos.
+          data: valores,  // Datos en el eje Y. En este caso, representan los tiempos de ejecución.
+          borderColor: 'rgba(75, 192, 192, 1)',  // Color del borde de la línea del gráfico.
+          borderWidth: 2,  // Ancho del borde de la línea del gráfico.
+          fill: false,  // Determina si se rellena el área bajo la línea (en este caso, no se rellena).
+        },
+      ],
+    },
+    options: {
+      scales: {
+        x: {
+          type: 'linear',  // Tipo de escala para el eje X (lineal en este caso).
+          position: 'bottom',  // Posición del eje X (en la parte inferior).
+          title: {
+            display: true,
+            text: 'Tamaño de Entrada',  // Título del eje X.
+          },
+        },
+        y: {
+          type: 'logarithmic',  // Tipo de escala para el eje Y (lineal en este caso).
+          position: 'left',  // Posición del eje Y (en el lado izquierdo).
+          title: {
+            display: true,
+            text: 'Cantidad de Operaciones',  // Título del eje Y.
+          },
+        },
+      },
+    },
+  });
+  return [chartEmpirico, chartTeorico];
 }
