@@ -139,7 +139,7 @@
   .button-container button {
     margin-bottom: 10px;
     padding: 20px;
-    font-size: 3vw; /* Utiliza un tamaño de fuente relativo al ancho de la ventana */
+    font-size: min(3vw, 1.5vh); /* Utiliza un tamaño de fuente relativo al ancho de la ventana o la altura del botón, lo que sea menor */
     height: 60vh;
     width: 20vw;
     margin-right: 20px;
@@ -194,9 +194,7 @@
 
   @media screen and (max-width: 768px) {
     .button-container button {
-      font-size: 4vw; /* Cambia el tamaño del texto para pantallas más pequeñas */
-      height: 15vh; /* Ajusta la altura del botón en dispositivos móviles */
-      width: 60vw; /* Ajusta el ancho del botón en dispositivos móviles */
+        font-size: min(4vw, 1.5vh); /* Cambia el tamaño del texto para pantallas más pequeñas */
     }
   }
   
