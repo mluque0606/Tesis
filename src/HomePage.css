@@ -195,6 +195,8 @@
   @media screen and (max-width: 768px) {
     .button-container button {
       font-size: 4vw; /* Cambia el tamaño del texto para pantallas más pequeñas */
+      height: 15vh; /* Ajusta la altura del botón en dispositivos móviles */
+      width: 60vw; /* Ajusta el ancho del botón en dispositivos móviles */
     }
   }
   
