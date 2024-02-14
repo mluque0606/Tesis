@@ -139,7 +139,7 @@
   .button-container button {
     margin-bottom: 10px;
     padding: 20px;
-    font-size: 24px;
+    font-size: 3vw; /* Utiliza un tamaño de fuente relativo al ancho de la ventana */
     height: 60vh;
     width: 20vw;
     margin-right: 20px;
@@ -190,5 +190,11 @@
     stroke-dashoffset: 48;
     stroke: #ff9950;
     transition: all 2s cubic-bezier(0.22, 1, 0.25, 1);
+  }
+
+  @media screen and (max-width: 768px) {
+    .button-container button {
+      font-size: 4vw; /* Cambia el tamaño del texto para pantallas más pequeñas */
+    }
   }
   
