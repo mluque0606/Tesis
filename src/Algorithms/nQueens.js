@@ -6,7 +6,7 @@ del vector. Se analiza que no haya reinas en la misma fila, columna o diagonal (
 
 import React, { useState } from 'react';  // Asegúrate de importar useState si no lo has hecho
 
-export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSolutionNodes, tree = [], solutionsSet = new Set()) => {
+export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSolutionNodes, tree = [], solutionsSet = new Set(), nodeCounter = {count: 1}) => {
   if (row === n) {
     setSolutionNodes((prevSolutionNodes) => prevSolutionNodes + 1);
     const queensPositions = board.map((row, rowIndex) => row.indexOf(1) + 1);
@@ -14,6 +14,7 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
       name: 'SOLUCION',
       attributes: {
         'Columnas': '(' + queensPositions.join(', ') + ')',
+        'Orden' : nodeCounter.count++,
       }
     }];
   }
@@ -23,10 +24,29 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
 
   const nodeName = row !== 0 ? `Fila ${row}` : undefined;
 
+  //Se hace antes de la recursion para que cree los nodos en preorden
+  if (row != 0) {
+    tree.push({
+      name: `Fila ${row}`,
+      attributes: {
+        'Columnas': '(' + board.map((row, rowIndex) => row.indexOf(1) + 1).join(', ') + ')  ',
+        'Orden': nodeCounter.count++,
+      },
+      children,
+    });
+  } else {
+    tree.push({
+      attributes: {
+        'Orden': nodeCounter.count++,
+      },
+      children,
+    });
+  }
+
   for (let col = 0; col < n; col++) {
     if (isSafe(board, row, col)) {
       currentRow[col] = 1; // Coloca una reina en esta posición
-      const child = generateNQueensTree(n, [...board], row + 1, setPrunedNodes, setSolutionNodes, [], solutionsSet);
+      const child = generateNQueensTree(n, [...board], row + 1, setPrunedNodes, setSolutionNodes, [], solutionsSet, nodeCounter);
       children.push(...child);
       currentRow[col] = 0; // Deshaz la decisión para explorar otras posibilidades
     }
@@ -36,20 +56,6 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
     setPrunedNodes((prevPrunedNodes) => prevPrunedNodes + 1);
   }
 
-  // Retorno condicional para que en el nodo raíz no muestre nada
-  if (row != 0) {
-    tree.push({
-      name: `Fila ${row}`,
-      attributes: {
-        'Columnas': '(' + board.map((row, rowIndex) => row.indexOf(1) + 1).join(', ') + ')  ',
-      },
-      children,
-    });
-  } else {
-    tree.push({
-      children,
-    });
-  }
   return tree;
 };
 
@@ -91,22 +97,26 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
   };
 
 
-  /*Procedimiento para ejecucion de complejidad temporal en algoritmo de N-Reinas, donde se recibe por parametros
-  los tamaños del algoritmo a ejecutar y, se guarda en un arreglo los tiempos de ejecucion devueltos, para luego 
-  ser graficado
+  /*
+  Procedimiento para ejecucion de complejidad temporal en algoritmo de N-Reinas, donde se recibe por parametros
+  los tamaños del algoritmo a ejecutar y, se guarda en un arreglo los tiempos de ejecucion devueltos y la cantidad 
+  de nodos generados, para luego ser graficado
   */
-  export const runNQueensForDifferentSizes = (sizes, executionTimes, setPrunedNodes, setSolutionNodes) => {
+  export const runNQueensForDifferentSizes = (sizes, executionTimes, countNodes, setPrunedNodes, setSolutionNodes) => {
   
     // Itera a través de diferentes tamaños de entrada
     for (const size of sizes) {
       const initialBoard = Array.from({ length: size }, () => Array(size).fill(0));
-
+      // Inicializar el contador de nodos
+      const nodeCounter = { count: 1 };
       const start = performance.now();
-      generateNQueensTree(size, initialBoard, 0, setPrunedNodes, setSolutionNodes);
+      generateNQueensTree(size, initialBoard, 0, setPrunedNodes, setSolutionNodes, [], undefined, nodeCounter);
       const end = performance.now();
+
 
       const executionTime = end - start;
       executionTimes.push(executionTime);
+      countNodes.push(--nodeCounter.count);
     }
   };
   

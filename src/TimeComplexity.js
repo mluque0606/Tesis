@@ -13,7 +13,7 @@ function factorial(n) {
   return result;
 }
 
-export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes) {
+export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes, countNodes) {
   const chartEmpirico = new Chart(ctx1, {
     type: 'line',  // Tipo de gráfico. En este caso, es un gráfico de línea.
     data: {
@@ -56,7 +56,7 @@ export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes) {
   const sizesWithZero = [0, ...sizes];
   sizes.unshift(0);
   executionTimes.unshift(0);
-
+  countNodes.unshift(0);
 
   // Calcular los valores de n!
   const valores = sizesWithZero.map(n => factorial(n));
@@ -68,14 +68,22 @@ export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes) {
       labels: sizesWithZero,  // Etiquetas en el eje X. En este caso, representan los tamaños de entrada.
       datasets: [
         {
-          label: 'Complejidad Temporal Teorica',  // Etiqueta para el conjunto de datos.
-          data: valores,  // Datos en el eje Y. En este caso, representan los tiempos de ejecución.
-          borderColor: 'rgba(75, 192, 192, 1)',  // Color del borde de la línea del gráfico.
-          borderWidth: 2,  // Ancho del borde de la línea del gráfico.
-          fill: false,  // Determina si se rellena el área bajo la línea (en este caso, no se rellena).
-          cubicInterpolationMode: 'monotone', // Usar interpolación cúbica monotónica
+          label: 'Complejidad Temporal Teorica (Cota)',
+          data: valores,
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 2,
+          fill: false,
+          cubicInterpolationMode: 'monotone',
         },
-      ],
+        {
+          label: 'Operaciones Elementales Reales',
+          data: countNodes,
+          borderColor: 'rgba(192, 75, 192, 1)',
+          borderWidth: 2,
+          fill: false,
+          cubicInterpolationMode: 'monotone',
+        },
+      ]
     },
     options: {
       scales: {
@@ -89,7 +97,7 @@ export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes) {
           },
         },
         y: {
-          type: 'logarithmic',  // Tipo de escala para el eje Y (lineal en este caso).
+          type: 'linear',  // Tipo de escala para el eje Y (lineal en este caso).
           position: 'left',  // Posición del eje Y (en el lado izquierdo).
           title: {
             display: true,

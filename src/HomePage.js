@@ -246,7 +246,7 @@ function HomePage() {
             } else if (selectedResolution === 'Sin Poda') {
               newTreeData = generateTreeDataSinPoda(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes, nodeCountObj);
             }
-            setGeneratedNodes(--nodeCountObj.value);
+            //setGeneratedNodes(--nodeCountObj.value);
           } else if (selectedTreeType === 'generateTreeDatanario') {
             if (selectedResolution === 'Con Poda') {
               newTreeData = generateTreeDatanario(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
@@ -269,7 +269,13 @@ function HomePage() {
           const start = performance.now(); // Tiempo inicial de ejecución
           let newTreeData;
           const initialBoard = Array.from({ length: inputTarget }, () => Array(inputTarget).fill(0));
-          newTreeData = generateNQueensTree(inputTarget, initialBoard, 0, setPrunedNodes, setSolutionNodes);
+          // Inicializar el contador de nodos
+          const nodeCounter = { count: 1 };
+
+          newTreeData = generateNQueensTree(inputTarget, initialBoard, 0, setPrunedNodes, setSolutionNodes, [], undefined, nodeCounter);
+
+          setGeneratedNodes(--nodeCounter.count);
+
           
           const end = performance.now(); // Tiempo final de ejecución
           const timeTaken = (end - start).toFixed(5); // Tiempo de ejecución en milisegundos
@@ -290,14 +296,13 @@ function HomePage() {
           const inputNumbers = document.getElementById('inputNumbers').value;
           const sizes = inputNumbers.split(',').map(Number);
           const executionTimes = [];
-          runNQueensForDifferentSizes(sizes, executionTimes, setPrunedNodes, setSolutionNodes);
+          const countNodes = [];
+          runNQueensForDifferentSizes(sizes, executionTimes, countNodes, setPrunedNodes, setSolutionNodes);
           
-          //const ctx = document.getElementById('myChart').getContext('2d');
           const ctx1 = document.getElementById('myChart1').getContext('2d');
           const ctx2 = document.getElementById('myChart2').getContext('2d');
 
-          //const chart = createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes);
-          const [chart, chartTheoretical] = createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes);
+          const [chart, chartTheoretical] = createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes, countNodes);
           setStep4Visible(true);
           setGraphVisible(true);
           setDescriptionVisible(true);
