@@ -548,7 +548,7 @@ function HomePage() {
                 <canvas id="myChart1" width="700" height="500" style={{ marginBottom: '20px' }}></canvas>
                 {descriptionVisible && (
                   <p style={{ maxWidth: '700px', padding: '10px', textAlign: 'justify' }}>
-                    El análisis teoricos considera el número de operaciones que realiza el algoritmo en función del tamaño de la entrada. La complejidad temporal teórica es utilizada para comparar algoritmos y determinar cuál es más eficiente en términos de cantidad de operaciones realizadas.
+                    El análisis teórico considera el número de operaciones que realiza el algoritmo en función del tamaño de la entrada. La complejidad temporal teórica es utilizada para comparar algoritmos y determinar cuál es más eficiente en términos de cantidad de operaciones realizadas.
                   </p>
                 )}
                 <canvas id="myChart2" width="700" height="500" style={{ marginBottom: '20px' }}></canvas>

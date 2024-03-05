@@ -6,17 +6,11 @@ import Chart from 'chart.js/auto';
 
 // Función para calcular el factorial de un número
 function factorial(n) {
-  if (n === 0 || n === 1) {
-    return 1;
-  } else {
-    return n * factorial(n - 1);
+  let result = 1;
+  for (let i = 2; i <= n; i++) {
+    result *= i;
   }
-}
-
-// Crear un arreglo de tamaños de entrada hasta cierto límite
-const tam = [];
-for (let i = 1; i <= 10; i++) { // Aquí limitamos el tamaño de entrada hasta 10
-  tam.push(i);
+  return result;
 }
 
 export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes) {
@@ -31,6 +25,7 @@ export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes) {
           borderColor: 'rgba(75, 192, 192, 1)',  // Color del borde de la línea del gráfico.
           borderWidth: 2,  // Ancho del borde de la línea del gráfico.
           fill: false,  // Determina si se rellena el área bajo la línea (en este caso, no se rellena).
+          cubicInterpolationMode: 'monotone', // Usar interpolación cúbica monotónica
         },
       ],
     },
@@ -56,13 +51,21 @@ export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes) {
     },
   });
 
+  // Agregar el valor (0, 0) al principio de los arreglos de datos
+  
+  const sizesWithZero = [0, ...sizes];
+  sizes.unshift(0);
+  executionTimes.unshift(0);
+
+
   // Calcular los valores de n!
-  const valores = tam.map(n => factorial(n));
+  const valores = sizesWithZero.map(n => factorial(n));
+
 
   const chartTeorico = new Chart(ctx2, {
     type: 'line',  // Tipo de gráfico. En este caso, es un gráfico de línea.
     data: {
-      labels: tam,  // Etiquetas en el eje X. En este caso, representan los tamaños de entrada.
+      labels: sizesWithZero,  // Etiquetas en el eje X. En este caso, representan los tamaños de entrada.
       datasets: [
         {
           label: 'Complejidad Temporal Teorica',  // Etiqueta para el conjunto de datos.
@@ -70,6 +73,7 @@ export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes) {
           borderColor: 'rgba(75, 192, 192, 1)',  // Color del borde de la línea del gráfico.
           borderWidth: 2,  // Ancho del borde de la línea del gráfico.
           fill: false,  // Determina si se rellena el área bajo la línea (en este caso, no se rellena).
+          cubicInterpolationMode: 'monotone', // Usar interpolación cúbica monotónica
         },
       ],
     },
@@ -78,6 +82,7 @@ export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes) {
         x: {
           type: 'linear',  // Tipo de escala para el eje X (lineal en este caso).
           position: 'bottom',  // Posición del eje X (en la parte inferior).
+          min: 0,
           title: {
             display: true,
             text: 'Tamaño de Entrada',  // Título del eje X.
@@ -88,7 +93,7 @@ export function createExecutionTimeChart(ctx1, ctx2, sizes, executionTimes) {
           position: 'left',  // Posición del eje Y (en el lado izquierdo).
           title: {
             display: true,
-            text: 'Cantidad de Operaciones',  // Título del eje Y.
+            text: 'Tiempo de ejecución (n° operaciones elementales)',  // Título del eje Y.
           },
         },
       },
