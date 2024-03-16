@@ -184,3 +184,59 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       },
     ];
   };
+
+  /*
+  Funcion que retorna el codigo en c++ para ser mostrado en la ventana emergente de backtracking  
+  */
+  export const codeSumOfSubsetsNario = () => {
+    const code = `
+      SUMA DE SUBCONJUNTOS N-ARIO
+      BACK (estado e, solucion *sol) =====> e: nodo del árbol del espacio de soluciones
+                                     =====> sol: solución que retorna
+      if ( HOJA (e))
+        CalcularSolucion (e, sol);
+      else
+        int nrohijo = 1;
+        estado siguiente;
+        while ( HIJOS (nrohijo, e, siguiente ) )
+          if ( !PODADO ( siguiente, sol) )
+            BACK ( siguiente, sol);
+          ++nrohijo; 
+    `;
+    return code;
+  }
+  export const codeSumOfSubsetsBinarioPoda = () => {
+    const code = `
+      SUMA DE SUBCONJUNTOS BINARIO CON PODA
+      BACK (estado e, solucion *sol) =====> e: nodo del árbol del espacio de soluciones
+                                     =====> sol: solución que retorna
+      if ( HOJA (e))
+        CalcularSolucion (e, sol);
+      else
+        int nrohijo = 1;
+        estado siguiente;
+        while ( HIJOS (nrohijo, e, siguiente ) )
+          if ( !PODADO ( siguiente, sol) )
+            BACK ( siguiente, sol);
+          ++nrohijo; 
+    `;
+    return code;
+  }
+
+  export const codeSumOfSubsetsBinario = () => {
+    const code = `
+      SUMA DE SUBCONJUNTOS BINARIO SIN PODA
+      BACK (estado e, solucion *sol) =====> e: nodo del árbol del espacio de soluciones
+                                     =====> sol: solución que retorna
+      if ( HOJA (e))
+        CalcularSolucion (e, sol);
+      else
+        int nrohijo = 1;
+        estado siguiente;
+        while ( HIJOS (nrohijo, e, siguiente ) )
+          if ( !PODADO ( siguiente, sol) )
+            BACK ( siguiente, sol);
+          ++nrohijo; 
+    `;
+    return code;
+  }

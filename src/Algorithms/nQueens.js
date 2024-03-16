@@ -119,4 +119,25 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
       countNodes.push(--nodeCounter.count);
     }
   };
+
+  /*
+  Funcion que retorna el codigo en c++ para ser mostrado en la ventana emergente de backtracking
+  */
+  export const codeNQueens = () => {
+    const code = `
+      N-REINAS
+      BACK (estado e, solucion *sol) =====> e: nodo del árbol del espacio de soluciones
+                                     =====> sol: solución que retorna
+      if ( HOJA (e))
+        CalcularSolucion (e, sol);
+      else
+        int nrohijo = 1;
+        estado siguiente;
+        while ( HIJOS (nrohijo, e, siguiente ) )
+          if ( !PODADO ( siguiente, sol) )
+            BACK ( siguiente, sol);
+          ++nrohijo; 
+    `;
+    return code;
+  }
   

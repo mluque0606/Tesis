@@ -6,13 +6,15 @@ import HelpPage from './HelpPage'; // Importa la página de ayuda
 import { useState } from 'react';
 import Tree from 'react-d3-tree';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUndo, faPlay, faChessBoard } from "@fortawesome/free-solid-svg-icons";
-import { generateTreeDataSinPoda, generateTreeDatanario, generateTreeData, generateTreeDatanarioSinPoda } from './Algorithms/sumOfSubsets';
-import { generateNQueensTree, runNQueensForDifferentSizes } from './Algorithms/nQueens';
+import { faUndo, faPlay, faChessBoard, faCode } from "@fortawesome/free-solid-svg-icons";
+import { generateTreeDataSinPoda, generateTreeDatanario, generateTreeData, generateTreeDatanarioSinPoda, codeSumOfSubsetsNario, codeSumOfSubsetsBinarioPoda, codeSumOfSubsetsBinario } from './Algorithms/sumOfSubsets';
+import { generateNQueensTree, runNQueensForDifferentSizes, codeNQueens } from './Algorithms/nQueens';
 import { createExecutionTimeChart } from './TimeComplexity';
 import './HomePage.css'; // Agrega los estilos a la pagina de inicio
 import Chart from 'chart.js/auto'; //Agregado para el grafico de complejidad temporal
 import Chessboard from './Chessboard';
+import logo from './Images/Logo.png'; // Importa la imagen
+
 
 
 
@@ -56,6 +58,7 @@ function HomePage() {
     const [descriptionVisible, setDescriptionVisible] = useState(false); //Esatdo para controlar la visibilidad de la descripcion del grafico de complejidad
     const [isChessboardVisible, setChessboardVisible] = useState(false); //Estado para controlar la visbilidad del tablero
     const [chessboardWindow, setChessboardWindow] = useState(null);
+    const [codeWindow, setCodeWindow] = useState(null);
 
 
     //Esstructura que contiene las soluciones de n-reinas. El indice es el tamaño y el array las soluciones
@@ -176,6 +179,49 @@ function HomePage() {
       }
     };
 
+    //Agregado para visualizar el codigo fuente
+    const handleShowCodeInNewWindow = () => {
+      //Busco el centro de la pantalla
+      const screen = window.screen;
+      const screenWidth = screen.width;
+      const screenHeight = screen.height;
+      const windowWidth = 400;
+      const windowHeight = 400;
+      const left = (screenWidth - windowWidth) / 2;
+      const top = (screenHeight - windowHeight) / 2;
+      // Abre una nueva ventana
+      const newWindow = window.open('', '_blank', `width=${windowWidth},height=${windowHeight},left=${left},top=${top}`);
+      let code;
+      if (selectedAlgorithm === 'N-Reinas'){
+        code = codeNQueens();
+      }
+      else if (selectedAlgorithm === 'Suma de Subconjuntos'){
+        if (selectedTreeType === 'generateTreeData'){
+          if (selectedResolution === 'Con Poda') {
+            code = codeSumOfSubsetsBinarioPoda();
+          }
+          else if (selectedResolution === 'Sin Poda'){
+            code = codeSumOfSubsetsBinario();
+          }
+        }
+        else if (selectedTreeType === 'generateTreeDatanario'){
+          code = codeSumOfSubsetsNario();
+        }
+      }
+      if (newWindow) {
+        setCodeWindow(newWindow);  // Almacena la referencia de la ventana emergente
+        newWindow.document.write('<html><head><title>Code Window</title>');
+        newWindow.document.write('<style>');
+        newWindow.document.write('body { font-family: "Arial", sans-serif; margin: 20px; background-color: #CEDEBD; color: #435334; overflow: auto;}');
+        newWindow.document.write('h1 { text-align: center; }');
+        newWindow.document.write('.code-container { background-color: white; padding: 20px; border-radius: 8px; }'); // Estilo para el contenedor del código
+        newWindow.document.write('</style></head><body>');
+        newWindow.document.write('<h1>Código Fuente [C++]</h1>');
+        newWindow.document.write('<div class="code-container"><pre className="code-snippet">' + code + '</pre></div>'); // Insertamos el código dentro del contenedor
+        newWindow.document.write('</body></html>');
+      }
+    };
+
     //Abrir pestaña emergente REFERENCIA
     const openReferencePopup = () => {
       const width = 600;
@@ -223,6 +269,10 @@ function HomePage() {
       if (chessboardWindow) {
         chessboardWindow.close();
         setChessboardWindow(null);
+      }
+      if (codeWindow) {
+        codeWindow.close();
+        setCodeWindow(null);
       }
 
       if (selectedAlgorithm=='Suma de Subconjuntos')
@@ -338,6 +388,10 @@ function HomePage() {
         chessboardWindow.close();
         setChessboardWindow(null);
       }
+      if (codeWindow) {
+        codeWindow.close();
+        setCodeWindow(null);
+      }
       window.location.reload();
     };
 
@@ -355,9 +409,8 @@ function HomePage() {
 
 
         {/* Contenido de la página principal */}
-        
         <header style={{ background: 'linear-gradient(to top, #CEDEBD, #FAF1E4)', padding: '20px', textAlign: 'center', color: '#fff' }} onClick={handleReset}>
-            <h1 style={{ margin: 0, cursor: 'pointer'  }}>BACK SOLUTION</h1>
+          <img src={logo} alt="Back Solution" style={{ width: '200px', height: '100px', cursor: 'pointer' }} />
         </header>
 
 
@@ -532,6 +585,8 @@ function HomePage() {
                               <FontAwesomeIcon icon={faChessBoard} /> Ver Soluciones
                             </button>
                         )}   
+                        <span style={{ marginLeft: '10px' }} /> {/* Agregamos un pequeño margen entre los botones */}
+                        <button onClick={handleShowCodeInNewWindow}> <FontAwesomeIcon icon={faCode} /> Ver Código Fuente</button>
                       </div>
                       {generatedNodes !== 0 && <p>Nodos Generados: {generatedNodes}</p>}
                       <p>Nodos Podados: {prunedNodes}</p>
