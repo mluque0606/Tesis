@@ -57,6 +57,8 @@ function HomePage() {
     const [isChessboardVisible, setChessboardVisible] = useState(false); //Estado para controlar la visbilidad del tablero
     const [chessboardWindow, setChessboardWindow] = useState(null);
     const [codeWindow, setCodeWindow] = useState(null);
+    const [executeDisabled, setExecuteDisabled] = useState(false); //Estado para controlar la habilitacion del ejecutar en complejidad temporal
+
 
 
     //Esstructura que contiene las soluciones de n-reinas. El indice es el tamaño y el array las soluciones
@@ -354,6 +356,7 @@ function HomePage() {
           setStep4Visible(true);
           setGraphVisible(true);
           setDescriptionVisible(true);
+          setExecuteDisabled(true);
         }
         else{
           alert('OPCION INCORRECTA');
@@ -376,6 +379,7 @@ function HomePage() {
       setInputNumbers('');
       setInputTarget('');
       setButtonsDisabled(false);
+      setExecuteDisabled(false);
       setInitialVisible(true);
       setStep0Visible(true);
       setStep1Visible(false);
@@ -543,7 +547,7 @@ function HomePage() {
         {step3Visible && (
           <section>
             {((selectedAlgorithm && selectedResolution) || (selectedAlgorithm == "N-Reinas")) && (
-              <button id="ejecutarBtn" onClick={handleExecute}> <FontAwesomeIcon icon={faPlay} /> Ejecutar </button>
+              <button id="ejecutarBtn" onClick={handleExecute} disabled={executeDisabled}> <FontAwesomeIcon icon={faPlay} /> Ejecutar </button>
             )}
           </section>
         )}
@@ -586,10 +590,13 @@ function HomePage() {
                         <span style={{ marginLeft: '10px' }} /> {/* Agregamos un pequeño margen entre los botones */}
                         <button onClick={handleShowCodeInNewWindow}> <FontAwesomeIcon icon={faCode} /> Ver Código Fuente</button>
                       </div>
-                      {generatedNodes !== 0 && <p>Nodos Generados: {generatedNodes}</p>}
-                      <p>Nodos Podados: {prunedNodes}</p>
-                      <p>Nodos Solucion: {solutionNodes}</p>
-                      <p>Tiempo de ejecución: {executionTime} ms</p>
+                      <div className="info-box">
+                        <h2>Métricas</h2>
+                        {generatedNodes !== 0 && <p>Nodos Generados: {generatedNodes}</p>}
+                        <p>Nodos Podados: {prunedNodes}</p>
+                        <p>Nodos Solucion: {solutionNodes}</p>
+                        <p>Tiempo de ejecución: {executionTime} ms</p>
+                      </div>
                   </div>
               )}
             </section>
