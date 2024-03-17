@@ -17,7 +17,6 @@ import logo from './Images/Logo.png'; // Importa la imagen
 
 
 
-
 function HomePage() {
     //Referencia
     const [referenceVisible, setReferenceVisible] = useState(false);
@@ -409,8 +408,8 @@ function HomePage() {
 
 
         {/* Contenido de la página principal */}
-        <header style={{ background: 'linear-gradient(to top, #CEDEBD, #FAF1E4)', padding: '20px', textAlign: 'center', color: '#fff' }} onClick={handleReset}>
-          <img src={logo} alt="Back Solution" style={{ width: '200px', height: '100px', cursor: 'pointer' }} />
+        <header style={{ background: 'linear-gradient(to top, #CEDEBD, #FAF1E4)', padding: '20px', textAlign: 'center', color: '#fff', marginTop: '0px', marginBottom: '10px'}} onClick={handleReset}>
+          <img src={logo} alt="Back Solution" style={{ width: '250px', height: '90px', cursor: 'pointer' }} />
         </header>
 
 
@@ -418,7 +417,7 @@ function HomePage() {
           {/* Mostrar seccion de inicio */}
           {initialVisible && (
             <section className="initial-section">
-              <div className="button-container">
+              <div className="button-container" style={{ marginTop: '5px' }}>
                 <button onClick={handleOptionChange} value="BACKTRACKING" disabled={buttonsDisabled}>BACKTRACKING</button>
                 <button onClick={handleOptionChange} value="COMPLEJIDAD_TEMPORAL" disabled={buttonsDisabled}>COMPLEJIDAD TEMPORAL</button>
               </div>
