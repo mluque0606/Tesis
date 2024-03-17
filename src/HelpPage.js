@@ -40,8 +40,8 @@ function HelpPage({ onClose }) {
                 <div className='help-characteristics'style={{ marginLeft: '30px' }}>
                   <p>• Hay un selector para elegir el algoritmo (actualmente solo está disponible N-Reinas).</p>
                   <p>• Se solicita cargar los tamaños de las entradas o cantidades de reinas.</p>
-                  <p>• Despues de ejecutar se puede observar el gráfico lineal de la complejidad temporal para el problema en cuestión.</p>
-                  <p>• En este gráfico se puede ocultar/mostrar las líneas si así se desea.</p>
+                  <p>• Despues de ejecutar se puede observar el gráfico correspondiente al análisis empírico y teórico de la complejidad temporal.</p>
+                  <p>• En ambos gráficos se puede ocultar/mostrar las líneas si así se desea.</p>
                 </div>
               </section>
 
