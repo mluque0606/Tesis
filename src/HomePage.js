@@ -13,8 +13,7 @@ import { createExecutionTimeChart } from './TimeComplexity';
 import './HomePage.css'; // Agrega los estilos a la pagina de inicio
 import Chart from 'chart.js/auto'; //Agregado para el grafico de complejidad temporal
 import Chessboard from './Chessboard';
-import logo from './Images/Logo.png'; // Importa la imagen
-
+import logo from './Images/Logo.png'; // Importa el logo
 
 
 function HomePage() {
@@ -409,7 +408,7 @@ function HomePage() {
 
         {/* Contenido de la página principal */}
         <header style={{ background: 'linear-gradient(to top, #CEDEBD, #FAF1E4)', padding: '20px', textAlign: 'center', color: '#fff', marginTop: '0px', marginBottom: '10px'}} onClick={handleReset}>
-          <img src={logo} alt="Back Solution" style={{ width: '250px', height: '90px', cursor: 'pointer' }} />
+          <img src={logo} alt="Back Solution" style={{ width: '250px', height: '80px', cursor: 'pointer' }} />
         </header>
 
 
