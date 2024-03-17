@@ -125,18 +125,27 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
   */
   export const codeNQueens = () => {
     const code = `
-      N-REINAS
-      BACK (estado e, solucion *sol) =====> e: nodo del árbol del espacio de soluciones
-                                     =====> sol: solución que retorna
-      if ( HOJA (e))
-        CalcularSolucion (e, sol);
-      else
-        int nrohijo = 1;
-        estado siguiente;
-        while ( HIJOS (nrohijo, e, siguiente ) )
-          if ( !PODADO ( siguiente, sol) )
-            BACK ( siguiente, sol);
-          ++nrohijo; 
+      bool esPosicionSegura(const vector<int> &solucion, int fila, int columna) {
+        for (int i = 0; i < fila; ++i)
+            if (solucion[i] == columna || solucion[i] - i == columna - fila || solucion[i] + i == columna + fila)
+                return false;
+        return true;
+      }
+
+      void nReinasBacktracking(vector<int> &solucion, int fila, int &numSoluciones) {
+          int n = solucion.size();
+          if (fila == n) {
+              generarSolucion(solucion);
+              return;
+          }
+          for (int columna = 0; columna < n; ++columna) {
+              if (esPosicionSegura(solucion, fila, columna)) {
+                  solucion[fila] = columna;
+                  nReinasBacktracking(solucion, fila + 1, numSoluciones);
+                  solucion[fila] = -1;
+              }
+          }
+      }
     `;
     return code;
   }

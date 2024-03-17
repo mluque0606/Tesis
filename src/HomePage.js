@@ -192,20 +192,25 @@ function HomePage() {
       // Abre una nueva ventana
       const newWindow = window.open('', '_blank', `width=${windowWidth},height=${windowHeight},left=${left},top=${top}`);
       let code;
+      let tittle;
       if (selectedAlgorithm === 'N-Reinas'){
         code = codeNQueens();
+        tittle = 'N-Reinas';
       }
       else if (selectedAlgorithm === 'Suma de Subconjuntos'){
         if (selectedTreeType === 'generateTreeData'){
           if (selectedResolution === 'Con Poda') {
             code = codeSumOfSubsetsBinarioPoda();
+            tittle = 'Suma de Subconjuntos binario con poda';
           }
           else if (selectedResolution === 'Sin Poda'){
             code = codeSumOfSubsetsBinario();
+            tittle = 'Suma de Subconjuntos binario sin poda';
           }
         }
         else if (selectedTreeType === 'generateTreeDatanario'){
           code = codeSumOfSubsetsNario();
+          tittle = 'Suma de Subconjuntos n-ario';
         }
       }
       if (newWindow) {
@@ -217,6 +222,7 @@ function HomePage() {
         newWindow.document.write('.code-container { background-color: white; padding: 20px; border-radius: 8px; }'); // Estilo para el contenedor del código
         newWindow.document.write('</style></head><body>');
         newWindow.document.write('<h1>Código Fuente [C++]</h1>');
+        newWindow.document.write('<h2>' + tittle + '</h2>');
         newWindow.document.write('<div class="code-container"><pre className="code-snippet">' + code + '</pre></div>'); // Insertamos el código dentro del contenedor
         newWindow.document.write('</body></html>');
       }
