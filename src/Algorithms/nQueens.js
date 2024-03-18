@@ -125,6 +125,7 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
   */
   export const codeNQueens = () => {
     const code = `
+      // Función que indica si una posición es segura para colocar la reina
       bool esPosicionSegura(const vector<int> &solucion, int fila, int columna) {
         for (int i = 0; i < fila; ++i)
             if (solucion[i] == columna || solucion[i] - i == columna - fila || solucion[i] + i == columna + fila)
@@ -134,6 +135,7 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
 
       void nReinasBacktracking(vector<int> &solucion, int fila, int &numSoluciones) {
           int n = solucion.size();
+          // Si es la última fila, generamos una solución
           if (fila == n) {
               generarSolucion(solucion);
               return;

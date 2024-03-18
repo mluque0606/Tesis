@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 
 
 // Función para generar el árbol de espacio de soluciones binario sin poda
-export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes, nodeCountObj) => {
+export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
     if (currentSum === targetSum) {
       // Si la suma actual es igual al objetivo, es una solución
       setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);
@@ -18,7 +18,6 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
           attributes: {
             Subconjunto: path.join(', '),
             Suma: targetSum,
-            Orden: nodeCountObj.value++,
           },
         },
       ];
@@ -37,7 +36,6 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       includePath,
       setPrunedNodes, 
       setSolutionNodes,
-      nodeCountObj
     );
 
     const excludeChild = generateTreeDataSinPoda(
@@ -48,16 +46,12 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       path,
       setPrunedNodes, 
       setSolutionNodes,
-      nodeCountObj
     );
 
     // Retorno para nodos de transición
     return [
       {
         name: `(${path.join(', ')})`,
-        attributes: {
-          Orden: nodeCountObj.value++,
-        },
         children: [...excludeChild, ...includeChild],
       },
     ];
@@ -122,8 +116,8 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
     ];
   };
 
-  // Función para generar el árbol de espacio de soluciones binario con poda incluida, agregado el numero de orden decreciente
-  export const generateTreeData = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes, nodeCountObj) => {
+  // Función para generar el árbol de espacio de soluciones binario con poda incluida
+  export const generateTreeData = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
     if (currentIndex === numbers.length) {
       // Se ha alcanzado el final del conjunto de números
       if (currentSum === targetSum) {
@@ -135,7 +129,6 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
             attributes: {
               Subconjunto: path.join(', '),
               Suma: targetSum,
-              Orden: nodeCountObj.value++,
             },
           },
         ];
@@ -158,7 +151,6 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       includePath, 
       setPrunedNodes, 
       setSolutionNodes,
-      nodeCountObj,
       );
 
     // Excluir el número actual del subconjunto
@@ -170,16 +162,12 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       path,
       setPrunedNodes, 
       setSolutionNodes,
-      nodeCountObj,
       );
 
       //Retorno para nodos de transicion
     return [
       {
         name: `(${path.join(', ')})`,
-        attributes: {
-                Orden: nodeCountObj.value++,
-        },
         children: [...excludeChildren, ...includeChildren],
       },
     ];
@@ -190,53 +178,75 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
   */
   export const codeSumOfSubsetsNario = () => {
     const code = `
-      SUMA DE SUBCONJUNTOS N-ARIO
-      BACK (estado e, solucion *sol) =====> e: nodo del árbol del espacio de soluciones
-                                     =====> sol: solución que retorna
-      if ( HOJA (e))
-        CalcularSolucion (e, sol);
-      else
-        int nrohijo = 1;
-        estado siguiente;
-        while ( HIJOS (nrohijo, e, siguiente ) )
-          if ( !PODADO ( siguiente, sol) )
-            BACK ( siguiente, sol);
-          ++nrohijo; 
+      void sumaSubconjuntos(vector<int>& conjunto, vector<int>& subconjunto, int index, int n, int target) {
+          if (target == 0) {
+              generarSolucion(subconjunto);
+              return;
+          }
+      
+          // Generar subconjuntos recursivamente
+          for (int i = index; i < n; ++i) {
+              // Si el elemento actual no excede el objetivo
+              if (target - conjunto[i] >= 0) {
+                  // Incluir el elemento en el subconjunto
+                  subconjunto.push_back(conjunto[i]);
+                  sumaSubconjuntos(conjunto, subconjunto, i + 1, n, target - conjunto[i]);
+                  // Eliminar el elemento
+                  subconjunto.pop_back();
+              }
+          }
+      }
     `;
     return code;
   }
   export const codeSumOfSubsetsBinarioPoda = () => {
     const code = `
-      SUMA DE SUBCONJUNTOS BINARIO CON PODA
-      BACK (estado e, solucion *sol) =====> e: nodo del árbol del espacio de soluciones
-                                     =====> sol: solución que retorna
-      if ( HOJA (e))
-        CalcularSolucion (e, sol);
-      else
-        int nrohijo = 1;
-        estado siguiente;
-        while ( HIJOS (nrohijo, e, siguiente ) )
-          if ( !PODADO ( siguiente, sol) )
-            BACK ( siguiente, sol);
-          ++nrohijo; 
+      void encontrarSubconjuntos(const vector<int>& conjunto, vector<int>& subset, int target, int index, int currentSum) {
+          // Si la suma del subconjunto actual es igual al objetivo, es solución
+          if (currentSum == target) {
+              generarSolucion(subset);
+              return;
+          }
+      
+          // Si se recorrió todo el conjunto o la suma actual supera el objetivo, regreso
+          if (index >= conjunto.size() || currentSum > target) {
+              return;
+          }
+      
+          // Incluir el elemento actual en el subconjunto
+          subset.push_back(conjunto[index]);
+          encontrarSubconjuntos(conjunto, subset, target, index + 1, currentSum + conjunto[index]);
+      
+          // Excluir el elemento actual del subconjunto
+          subset.pop_back();
+          encontrarSubconjuntos(conjunto, subset, target, index + 1, currentSum);
+      }
     `;
     return code;
   }
 
   export const codeSumOfSubsetsBinario = () => {
     const code = `
-      SUMA DE SUBCONJUNTOS BINARIO SIN PODA
-      BACK (estado e, solucion *sol) =====> e: nodo del árbol del espacio de soluciones
-                                     =====> sol: solución que retorna
-      if ( HOJA (e))
-        CalcularSolucion (e, sol);
-      else
-        int nrohijo = 1;
-        estado siguiente;
-        while ( HIJOS (nrohijo, e, siguiente ) )
-          if ( !PODADO ( siguiente, sol) )
-            BACK ( siguiente, sol);
-          ++nrohijo; 
+      void encontrarSubconjuntos(const vector<int>& conjunto, vector<int>& subset, int target, int index, int currentSum) {
+        // Si la suma del subconjunto actual es igual al objetivo, es solución
+        if (currentSum == target) {
+            generarSolucion(subset);
+            return;
+        }
+    
+        // Si se recorrió todo el conjunto, regreso
+        if (index >= conjunto.size()) {
+            return;
+        }
+    
+        // Incluir el elemento actual en el subconjunto
+        subset.push_back(conjunto[index]);
+        encontrarSubconjuntos(conjunto, subset, target, index + 1, currentSum + conjunto[index]);
+    
+        // Excluir el elemento actual del subconjunto
+        subset.pop_back();
+        encontrarSubconjuntos(conjunto, subset, target, index + 1, currentSum);
+  }
     `;
     return code;
   }

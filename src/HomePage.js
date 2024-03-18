@@ -294,15 +294,11 @@ function HomePage() {
           const start = performance.now(); // Tiempo inicial de ejecución
           let newTreeData;
           if (selectedTreeType === 'generateTreeData') {
-            const nodeCountObj = {
-              value: 1, // El contador de nodos
-            };
             if (selectedResolution === 'Con Poda') {
-              newTreeData = generateTreeData(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes, nodeCountObj);
+              newTreeData = generateTreeData(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
             } else if (selectedResolution === 'Sin Poda') {
-              newTreeData = generateTreeDataSinPoda(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes, nodeCountObj);
+              newTreeData = generateTreeDataSinPoda(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
             }
-            //setGeneratedNodes(--nodeCountObj.value);
           } else if (selectedTreeType === 'generateTreeDatanario') {
             if (selectedResolution === 'Con Poda') {
               newTreeData = generateTreeDatanario(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
