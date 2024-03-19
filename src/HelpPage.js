@@ -55,7 +55,7 @@ function HelpPage({ onClose }) {
           </main>
 
           <footer style={{paddingTop: '100px', textAlign: 'center' }}>
-              <p>Aplicación desarrollada por Joaquín Barbieri y Mauro Luque</p>
+              <p>Aplicación desarrollada por Joaquín Barbieri y Mauro Luque como parte de la tesis de grado para obtención del título Ingeniero de Sistemas de la Facultad de Ciencias Exactas - UNCPBA</p>
           </footer>
         </div>
     );
