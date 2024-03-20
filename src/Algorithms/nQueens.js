@@ -125,28 +125,27 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
   */
   export const codeNQueens = () => {
     const code = `
-      // Función que indica si una posición es segura para colocar la reina
-      bool esPosicionSegura(const vector<int> &solucion, int fila, int columna) {
-        for (int i = 0; i < fila; ++i)
-            if (solucion[i] == columna || solucion[i] - i == columna - fila || solucion[i] + i == columna + fila)
-                return false;
-        return true;
+      // funcion que indica si hay que podar
+      bool poda (int R[], int i) {
+        int j=0;
+        while ( j < i )  {
+          if ( (R[j] == R[i])  or  ((i-j) == abs( R[i]- R[j])) )
+            return true;	     //si es misma columna o en diagonal, podo
+          j++;
+        }
+        return false;
       }
-
-      void nReinasBacktracking(vector<int> &solucion, int fila, int &numSoluciones) {
-          int n = solucion.size();
-          // Si es la última fila, generamos una solución
-          if (fila == n) {
-              generarSolucion(solucion);
-              return;
+        
+      void backReinas (int Solucion[], int nroReina) {
+        if (nroReina== N) {
+          mostrarSolucion(Solucion);
+        }else{
+          for (int columna = 0; columna < N ; columna ++) {
+            Solucion[nroReina] = columna;
+            if (!poda(Solucion, nroReina))
+              backReinas(Solucion, nroReina+1);
           }
-          for (int columna = 0; columna < n; ++columna) {
-              if (esPosicionSegura(solucion, fila, columna)) {
-                  solucion[fila] = columna;
-                  nReinasBacktracking(solucion, fila + 1, numSoluciones);
-                  solucion[fila] = -1;
-              }
-          }
+        }
       }
     `;
     return code;

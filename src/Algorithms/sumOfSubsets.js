@@ -178,48 +178,32 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
   */
   export const codeSumOfSubsetsNario = () => {
     const code = `
-      void sumaSubconjuntos(vector<int>& conjunto, vector<int>& subconjunto, int index, int n, int target) {
-          if (target == 0) {
-              generarSolucion(subconjunto);
-              return;
+      void SumaSubconjuntos (int W[], int M, int N, int actual, int suma, int* sol, int ind) {
+        if (suma == M) {
+          mostrarSolucion(sol, n);
+        } else {
+          while ((actual < N) &&  (suma + W[actual] <= M)){
+            sol[ind] = W[actual];      // guardo el valor
+            SumaSubconjuntos (W, M, N, actual+1, suma + W[actual], sol, ind+1);
+            actual++;
           }
-      
-          // Generar subconjuntos recursivamente
-          for (int i = index; i < n; ++i) {
-              // Si el elemento actual no excede el objetivo
-              if (target - conjunto[i] >= 0) {
-                  // Incluir el elemento en el subconjunto
-                  subconjunto.push_back(conjunto[i]);
-                  sumaSubconjuntos(conjunto, subconjunto, i + 1, n, target - conjunto[i]);
-                  // Eliminar el elemento
-                  subconjunto.pop_back();
-              }
-          }
-      }
+        }
     `;
     return code;
   }
   export const codeSumOfSubsetsBinarioPoda = () => {
     const code = `
-      void encontrarSubconjuntos(const vector<int>& conjunto, vector<int>& subset, int target, int index, int currentSum) {
-          // Si la suma del subconjunto actual es igual al objetivo, es solución
-          if (currentSum == target) {
-              generarSolucion(subset);
-              return;
+      void  SumaSubconjuntosBinario(int W[],int M, int n, int actual, int suma, int* sol) {
+        if (suma == M) {
+          mostrarSolucion(sol, n);
+        } else {
+          if ((actual < n)   &&   (suma + W[actual] <= M))  {
+            sol[actual] = 1;     // se incluye el elemento actual en la solucion
+            SumaSubconjuntosBinario(W, M, n, actual+1, suma + W[actual], sol);
+            sol[actual] = 0;     // se excluye el elemento actual de la solucion
+            SumaSubconjuntosBinario(W, M, n, actual+1, suma, sol);
           }
-      
-          // Si se recorrió todo el conjunto o la suma actual supera el objetivo, regreso
-          if (index >= conjunto.size() || currentSum > target) {
-              return;
-          }
-      
-          // Incluir el elemento actual en el subconjunto
-          subset.push_back(conjunto[index]);
-          encontrarSubconjuntos(conjunto, subset, target, index + 1, currentSum + conjunto[index]);
-      
-          // Excluir el elemento actual del subconjunto
-          subset.pop_back();
-          encontrarSubconjuntos(conjunto, subset, target, index + 1, currentSum);
+        }
       }
     `;
     return code;
@@ -227,26 +211,19 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
 
   export const codeSumOfSubsetsBinario = () => {
     const code = `
-      void encontrarSubconjuntos(const vector<int>& conjunto, vector<int>& subset, int target, int index, int currentSum) {
-        // Si la suma del subconjunto actual es igual al objetivo, es solución
-        if (currentSum == target) {
-            generarSolucion(subset);
-            return;
+      void  SumaSubconjuntosBinario(int W[],int M, int n, int actual, int suma, int* sol) {
+        if (suma == M) {
+          mostrarSolucion(sol, n);
+        } else {
+          if ((actual < n))  {
+            // al ser sin poda, no verifica si supera la suma objetivo
+            sol[actual] = 1;     // se incluye el elemento actual en la solucion
+            SumaSubconjuntosBinario(W, M, n, actual+1, suma + W[actual], sol);
+            sol[actual] = 0;     // se excluye el elemento actual de la solucion
+            SumaSubconjuntosBinario(W, M, n, actual+1, suma, sol);
+          }
         }
-    
-        // Si se recorrió todo el conjunto, regreso
-        if (index >= conjunto.size()) {
-            return;
-        }
-    
-        // Incluir el elemento actual en el subconjunto
-        subset.push_back(conjunto[index]);
-        encontrarSubconjuntos(conjunto, subset, target, index + 1, currentSum + conjunto[index]);
-    
-        // Excluir el elemento actual del subconjunto
-        subset.pop_back();
-        encontrarSubconjuntos(conjunto, subset, target, index + 1, currentSum);
-  }
+      }
     `;
     return code;
   }

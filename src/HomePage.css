@@ -219,3 +219,7 @@
     font-weight: bold;
   }
   
+  .name-section h2 {
+    font-size: 16px; /* Tamaño de fuente */
+  }
+  

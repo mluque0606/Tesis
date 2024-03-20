@@ -58,7 +58,7 @@ function HomePage() {
     const [chessboardWindow, setChessboardWindow] = useState(null);
     const [codeWindow, setCodeWindow] = useState(null);
     const [executeDisabled, setExecuteDisabled] = useState(false); //Estado para controlar la habilitacion del ejecutar en complejidad temporal
-
+    const [nameSection, setNameSection] = useState(''); //Estado para controlar la visibilidad del nombre de la seccion
 
 
     //Esstructura que contiene las soluciones de n-reinas. El indice es el tamaño y el array las soluciones
@@ -99,9 +99,10 @@ function HomePage() {
       setInputTarget('');
     
       if (selectedValue === 'BACKTRACKING') {
+        setNameSection('Backtracking');
         setStep3Visible(true); // Muestra sección de carga de parámetros
       } else if (selectedValue === 'COMPLEJIDAD_TEMPORAL') {
-        // Modificar según sea necesario
+        setNameSection('Complejidad Temporal');
         setStep3Visible(true);
         setGraphVisible(true);
       }
@@ -428,6 +429,14 @@ function HomePage() {
               </div>
             </section>
           )}
+
+          {/* Sección del nombre */}
+          {!initialVisible && (
+            <div className="name-section" style={{ textAlign: 'left', marginLeft: '10px', marginTop: '0px'}}>
+              <h2>{nameSection}</h2>
+            </div>
+          )}
+
           {/* Seleccion del algoritmo*/}
           {!initialVisible && (
             <section>
