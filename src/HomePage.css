@@ -51,14 +51,30 @@
   
   /* Estilos para el árbol */
   .tree-container {
-    border: 7px solid #ccc;
-    width: 800px;
     height: 400px;
+    border: 7px solid #ccc;
     padding: 10px;
     display: inline-flex;
-    justifyContent: center;
-    alignItems: center;
+    justify-content: center;
+    align-items: center;
   }
+
+  /* Media query para dispositivos con un ancho máximo de 600px (celulares) */
+  @media screen and (max-width: 600px) {
+    .tree-container {
+      width: 100%; /* Ajustamos al 100% del ancho de la pantalla en dispositivos móviles */
+      max-width: none; /* Quitamos el límite de ancho máximo */
+    }
+  }
+
+  /* Media query para dispositivos con un ancho mínimo de 601px (no celulares) */
+  @media screen and (min-width: 601px) {
+    .tree-container {
+      width: 800px; /* Establecemos un ancho fijo de 800px para otros dispositivos */
+      max-width: none; /* Quitamos el límite de ancho máximo */
+    }
+  }
+
 
   /* Nodos personalizados */
 
