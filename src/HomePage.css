@@ -5,13 +5,12 @@
   }
 
   /* Estilos para la barra superior */
-.top-bar {
+  .top-bar {
     background-color: #FAF1E4; /* color cremita */
     display: flex;
     justify-content: space-between;
     padding: 10px 20px; /* Ajusta el espaciado según tus preferencias */
   }
-
   /* Estilo para los enlaces de navegación */
 .nav-link {
     color: var(--color-texto);
@@ -221,5 +220,13 @@
   
   .name-section h2 {
     font-size: 16px; /* Tamaño de fuente */
+    margin-right: 10px; /* Distancia horizontal */
+    margin-left: 10px; /* Distancia horizontal */
   }
+
+  .error-message {
+    color: #ff0000; /* Color rojo */
+    font-weight: bold; /* Texto en negrita */
+  }
+  
   

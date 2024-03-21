@@ -50,6 +50,7 @@ function HelpPage({ onClose }) {
                 <div className='help-characteristics'>
                     <p>• Presionar en "BACK SOLUTION" dirige al menú principal.</p>
                     <p>• Siempre que sea necesario ingresar parámetros, hacerlo separando los valores por coma (',').</p>
+                    <p>• En N-Reinas se debe ingresar valores de entrada mayor a 3 y menor que 10, para que el problema no se vuelve intratable</p>
                 </div>
               </section>
           </main>

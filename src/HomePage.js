@@ -59,7 +59,9 @@ function HomePage() {
     const [codeWindow, setCodeWindow] = useState(null);
     const [executeDisabled, setExecuteDisabled] = useState(false); //Estado para controlar la habilitacion del ejecutar en complejidad temporal
     const [nameSection, setNameSection] = useState(''); //Estado para controlar la visibilidad del nombre de la seccion
-
+    const [inputErrorMenor, setInputErrorMenor] = useState(false);  // Estado para validar la entrada en n-reinas
+    const [inputErrorMayor, setInputErrorMayor] = useState(false);  // Estado para validar la entrada en n-reinas
+    const [inputErrorVacio, setInputErrorVacio] = useState(false);  // Estado para validar la entrada en n-reinas
 
     //Esstructura que contiene las soluciones de n-reinas. El indice es el tamaño y el array las soluciones
     const [datos, setDatos] = useState({
@@ -269,6 +271,10 @@ function HomePage() {
 
     //Funcion que se ejecuta al presionar el boton ejecutar
     const handleExecute = () => {
+      // Restablece el estado de error en cada ejecución
+      setInputErrorMayor(false);
+      setInputErrorMenor(false);
+      setInputErrorVacio(false);
       //Inicializo metricas
       setSolutionNodes(prevSolutionNodes => 0);
       setPrunedNodes(prevPrunedNodes => 0);
@@ -319,6 +325,19 @@ function HomePage() {
       {
         if (selectedOption === 'BACKTRACKING') {
           const inputTarget = parseFloat(document.getElementById('inputTarget').value);
+          // Realiza la validación
+          if (inputTarget === '' || isNaN(inputTarget)) {
+            setInputErrorVacio(true);
+            return; // Detén la ejecución si hay un error
+          }
+          if ((inputTarget < 4)) {
+            setInputErrorMenor(true);
+            return; // Detén la ejecución si hay un error
+          }
+          if (inputTarget > 9) {
+            setInputErrorMayor(true);
+            return; // Detén la ejecución si hay un error
+          }
           const start = performance.now(); // Tiempo inicial de ejecución
           let newTreeData;
           const initialBoard = Array.from({ length: inputTarget }, () => Array(inputTarget).fill(0));
@@ -348,6 +367,30 @@ function HomePage() {
 
           const inputNumbers = document.getElementById('inputNumbers').value;
           const sizes = inputNumbers.split(',').map(Number);
+
+          // Validar los tamaños
+          // Validar si no se ingresa nada
+          if (inputNumbers.trim() === '') {
+            setInputErrorVacio(true);
+            return;
+          }
+
+          // Validar los tamaños
+          if (sizes.some(isNaN)) {
+            setInputErrorVacio(true); // Podrías considerar cambiar este error si prefieres un mensaje diferente para NaN
+            return;
+          }
+          if (sizes.some(size => size < 4)) {
+            setInputErrorMenor(true);
+            return;
+          }
+          if (sizes.some(size => size > 12)) {
+            setInputErrorMayor(true);            
+            return;
+          }
+
+          sizes.sort((a, b) => a - b);
+
           const executionTimes = [];
           const countNodes = [];
           runNQueensForDifferentSizes(sizes, executionTimes, countNodes, setPrunedNodes, setSolutionNodes);
@@ -432,10 +475,11 @@ function HomePage() {
 
           {/* Sección del nombre */}
           {!initialVisible && (
-            <div className="name-section" style={{ textAlign: 'left', marginLeft: '10px', marginTop: '0px'}}>
+            <div className="name-section" style={{ display: 'inline-flex', border: '1px solid black', padding: '5px', marginRight: '10px', alignItems: 'center', boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)' }}>
               <h2>{nameSection}</h2>
             </div>
           )}
+
 
           {/* Seleccion del algoritmo*/}
           {!initialVisible && (
@@ -537,7 +581,9 @@ function HomePage() {
               </label>
               <br />
             </form>
-
+            {inputErrorVacio && <p className="error-message"> Ingrese la cantidad de reinas!</p>}
+            {inputErrorMenor && <p className="error-message"> No existe solución para menos de 4 reinas.</p>}
+            {inputErrorMayor && <p className="error-message"> La cantidad de reinas no debe ser mayor a 9 para que sea tratable.</p>}
             </section>
         )}
 
@@ -551,6 +597,9 @@ function HomePage() {
               </label>
               <br />
             </form>
+            {inputErrorVacio && <p className="error-message"> Ingrese los tamaños de entrada!</p>}
+            {inputErrorMenor && <p className="error-message"> No existe solución para una entrada menor a 4 reinas.</p>}
+            {inputErrorMayor && <p className="error-message"> Ninguna entrada debe ser mayor a 12 reinas para que sea tratable.</p>}
 
             </section>
         )}
