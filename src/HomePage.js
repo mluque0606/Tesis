@@ -661,22 +661,22 @@ function HomePage() {
               )}
             </section>
         )}
-        <section>
+        <section style={{ maxWidth: '100%', overflowX: 'hidden' }}>
           {graphVisible && (
             <div className='graph' style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
-              <div className='graph-container'>
+              <div className='graph-container' style={{ maxWidth: '100%', overflowX: 'hidden' }}>
                 {descriptionVisible && (
-                  <p style={{ maxWidth: '700px', padding: '10px', textAlign: 'justify' }}>
+                  <p style={{ maxWidth: '100%', padding: '10px', textAlign: 'justify', margin: '0 auto' }}>
                     El análisis empírico se encarga de medir cuánto tiempo realmente tarda un algoritmo en ejecutarse en situaciones reales utilizando datos de entrada reales, es decir, es dependiente del hardware y su contexto.
                   </p>
                 )}
-                <canvas id="myChart1" width="700" height="500" style={{ marginBottom: '20px' }}></canvas>
+                <canvas id="myChart1" width="700" height="500" style={{ maxWidth: '100%', marginBottom: '20px' }}></canvas>
                 {descriptionVisible && (
-                  <p style={{ maxWidth: '700px', padding: '10px', textAlign: 'justify' }}>
+                  <p style={{ maxWidth: '100%', padding: '10px', textAlign: 'justify', margin: '0 auto' }}>
                     El análisis teórico considera el número de operaciones que realiza el algoritmo en función del tamaño de la entrada. La complejidad temporal teórica es utilizada para comparar algoritmos y determinar cuál es más eficiente en términos de cantidad de operaciones realizadas.
                   </p>
                 )}
-                <canvas id="myChart2" width="700" height="500" style={{ marginBottom: '20px' }}></canvas>
+                <canvas id="myChart2" width="700" height="500" style={{ maxWidth: '100%', marginBottom: '20px' }}></canvas>
               </div>
             </div>
           )}
