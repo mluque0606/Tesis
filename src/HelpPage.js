@@ -33,14 +33,16 @@ function HelpPage({ onClose }) {
                   <p>• En todos los casos aparece la carga de parametros adecuada según el problema.</p>
                   <p>• Al dar en el boton ejecutar aparece el gráfico del espacio de soluciones al problema indicado junto a unas métricas de rendimiento y la opción de reiniciar para volver al menú principal.</p>
                   <p>• En el panel de visualización se puede manipular el zoom o incluso clickear en un nodo para ocultar/mostrar todos sus ramas inferiores.</p>
+                  <p>• El botón "Ver Código Fuente" despliega una ventana con el código en C++ con el cual se genera el espacio de soluciones mostrado en el panel.</p>
                   <p>• Para el algoritmo de N-Reinas (hasta 6) hay un botón para ver las soluciones dentro de un tablero de ajedrez.</p>
                 </div>
 
                 <h2 style={{ marginLeft: '30px' }}> Sección Complejidad Temporal </h2>
                 <div className='help-characteristics'style={{ marginLeft: '30px' }}>
-                  <p>• Hay un selector para elegir el algoritmo (actualmente solo está disponible N-Reinas).</p>
+                  <p>• Hay un selector para elegir el algoritmo.</p>
                   <p>• Se solicita cargar los tamaños de las entradas o cantidades de reinas.</p>
                   <p>• Despues de ejecutar se puede observar el gráfico correspondiente al análisis empírico y teórico de la complejidad temporal.</p>
+                  <p>• Cada gráfico cuenta con una breve descripción y, en el caso del teórico, posee la ádemas la cota superior para el algoritmo indicado.</p>
                   <p>• En ambos gráficos se puede ocultar/mostrar las líneas si así se desea.</p>
                 </div>
               </section>
@@ -48,9 +50,9 @@ function HelpPage({ onClose }) {
               <section>
                 <h2> Tips: </h2>
                 <div className='help-characteristics'>
-                    <p>• Presionar en "BACK SOLUTION" dirige al menú principal.</p>
+                    <p>• Presionar en el logo "BACK SOLUTION" dirige al menú principal.</p>
                     <p>• Siempre que sea necesario ingresar parámetros, hacerlo separando los valores por coma (',').</p>
-                    <p>• En N-Reinas se debe ingresar valores de entrada mayor a 3 y menor que 10, para que el problema no se vuelve intratable</p>
+                    <p>• Respetar controles de validación para la carga de parámetros, ya sea por números inválidos o por la omisión de alguno.</p>
                 </div>
               </section>
           </main>
