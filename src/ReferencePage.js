@@ -49,7 +49,7 @@ function ReferencePage({ onClose }) {
                   <h2> Características del problema: </h2>
                   <div className='reference-characteristics'>
                     <p>
-                      <strong>Espacio de Soluciones:</strong> El espacio de soluciones puede modelarse mediante un árbol binario o n-ario que contiene todas las posibles secuencias de decisiones. Donde cada nodo representa un estado del problema y los arcos las decisiones tomadas para cambiar de estado.
+                      <strong>Espacio de Soluciones:</strong> Puede modelarse mediante un árbol binario o n-ario que contiene todas las posibles secuencias de decisiones. Donde cada nodo representa un estado del problema y los arcos las decisiones tomadas para cambiar de estado.
                     </p>
                     <p>
                       <strong>Expresión en Forma de Tupla:</strong> La solución puede expresarse como una n-tupla (x1, x2, ..., xn), donde los Xi pertenencen a un cierto dominio.
@@ -132,11 +132,11 @@ function ReferencePage({ onClose }) {
                       este se puede ver afectado principalmente por la cantidad de operaciones básicas ejecutadas por el algoritmo. Ademas, permite comparar 
                       la eficiencia relativa de diferentes algoritmos para resolver un mismo problema</p>
                   </div>
-                  <h2>• Empírica </h2>
+                  <h2>• Empírico </h2>
                   <div className='reference-characteristics'>
                     <p> El análisis empírico implica medir el tiempo de ejecución real del algoritmo en un entorno específico, lo que incluye el hardware y el contexto de ejecución; este enfoque proporciona una evaluación práctica del rendimiento del algoritmo pero puede verse influenciado por factores externos. Su resultado se mide en unidades de tiempo</p>
                   </div>
-                  <h2>• Teórica </h2>
+                  <h2>• Teórico </h2>
                   <div className='reference-characteristics'>
                     <p> El análisis teórico se basa en la cantidad de operaciones básicas que realiza el algoritmo en relación con el tamaño de la entrada; este análisis es independiente del contexto de ejecución y proporciona una comprensión abstracta del rendimiento del algoritmo en diferentes tamaños de entrada. Su resultado se mide en cantidad de operaciones elementales.</p>
                   </div>
