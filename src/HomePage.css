@@ -174,13 +174,17 @@
     line-height: 1.5; /* Ajusta la altura de línea para centrar el texto verticalmente */
   }
 
-/* Media query para dispositivos con un ancho máximo de 768px (por ejemplo, dispositivos móviles) */
-@media only screen and (max-width: 768px) {
-  .button-container button {
-    width: 100%; /* Cambia el ancho del botón al 100% del contenedor en dispositivos móviles */
-    margin-right: 0; /* Elimina el margen derecho para evitar espacios en dispositivos móviles */
+  /* Media query para dispositivos con un ancho máximo de 768px (por ejemplo, dispositivos móviles) */
+  @media only screen and (max-width: 768px) {
+    .button-container {
+      justify-content: space-between; /* Distribuye los botones de manera uniforme */
+    }
+
+    .button-container button {
+      width: calc(40% - 10px); /* Calcula el ancho de cada botón */
+      margin-right: 0; /* Elimina el margen derecho para evitar espacios innecesarios */
+    }
   }
-}
 
   
   .button-container button:hover {
