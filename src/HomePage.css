@@ -148,6 +148,8 @@
     place-items: center;
     justify-content: space-around; /* Ajusta el espacio entre los botones */
     margin-top: 10vh; /* Ajusta el margen superior */
+    margin: 0 10px; /* Agrega un poco de espacio a los lados del contenedor */
+
   }
   
 /* Estilos para los botones dentro del contenedor */
@@ -156,7 +158,8 @@
     padding: 20px;
     font-size: 24px;
     height: 60vh;
-    width: calc(50% - 10px); /* Ancho del 50% del contenedor menos el espacio entre los botones */
+    width: 20vh;
+    margin: auto; /* Centra los botones dentro del contenedor */
     margin-right: 10px; /* Espacio entre los botones */
     color: black;
     cursor: pointer;
@@ -182,7 +185,6 @@
 
     .button-container button {
       width: calc(40% - 10px); /* Calcula el ancho de cada botón */
-      margin-right: 0; /* Elimina el margen derecho para evitar espacios innecesarios */
     }
   }
 
