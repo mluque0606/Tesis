@@ -75,6 +75,20 @@
     }
   }
 
+  @media screen and (max-width: 600px) {
+    .graph {
+      width: 100%; /* Ajustamos al 100% del ancho de la pantalla en dispositivos móviles */
+      max-width: none; /* Quitamos el límite de ancho máximo */
+    }
+
+    .graph-container canvas {
+      width: 100%; /* Ajustamos al 100% del ancho del contenedor en dispositivos móviles */
+      height: auto; /* Permitimos que la altura se ajuste automáticamente */
+      max-width: none; /* Quitamos el límite de ancho máximo */
+      max-height: none; /* Quitamos el límite de altura máxima */
+    }
+  }
+
   /* Nodos personalizados */
 
 .node__root > circle {   /* Raiz */
