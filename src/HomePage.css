@@ -200,24 +200,6 @@
     .button-container button {
       width: calc(40% - 10px); /* Calcula el ancho de cada botón */
     }
-
-      /* Anular estilos hover en dispositivos móviles */
-    .button-container button:hover {
-      color: black; /* Cambiar el color de texto al color original */
-      transform: none; /* Eliminar la transformación */
-      z-index: 1; /* Restaurar el índice de apilamiento original */
-      width: 20vh; /* Restaurar el ancho original */
-      background: var(--color-fondo); /* Restaurar el fondo original */
-      font-size: 1rem; /* Restaurar el tamaño de fuente original */
-    }
-
-    .button-container button:hover rect {
-      stroke-width: 2; /* Restaurar el ancho de trazo original */
-      stroke-dasharray: 450, 0; /* Restaurar el patrón de trazo original */
-      stroke-dashoffset: 0; /* Restaurar el desplazamiento de trazo original */
-      stroke: #fff; /* Restaurar el color de trazo original */
-      transition: none; /* Eliminar la transición */
-    }
   }
 
   
