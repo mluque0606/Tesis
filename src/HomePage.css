@@ -152,10 +152,13 @@
   
   .button-container button {
     margin-bottom: 10px;
-    padding: 20px;
-    font-size: 4vw; /* Tamaño de fuente adaptable */
+    /*padding: 20px;*/
+    font-size: 24px;
     height: 60vh;
-    width: 20vw;
+    /*width: 20vw;*/    
+    width: auto; /* Hace que el ancho del botón se ajuste automáticamente al contenido */
+    min-width: 150px; /* Establece un ancho mínimo para el botón */
+    padding: 20px; /* Ajusta el espaciado interno del botón */
     margin-right: 20px;
     color: black;
     cursor: pointer;
