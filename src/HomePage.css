@@ -186,6 +186,15 @@
     .button-container button {
       width: calc(40% - 10px); /* Calcula el ancho de cada botón */
     }
+
+    /* Estilos para la transición hover en dispositivos móviles */
+    .button-container button:hover {
+      background: linear-gradient(to bottom, #8eff9c, #9fe4fc); /* Cambia el color de fondo */
+      color: #ffffff; /* Cambia el color de la fuente a blanco */
+      font-size: 24px; /* Mantén el tamaño de fuente original */
+      transform: none; /* No aplicar transformación de escala */
+      z-index: 2; /* Establece un índice de apilamiento superior cuando el mouse está sobre el botón */
+    }
   }
 
   
