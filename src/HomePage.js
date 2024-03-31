@@ -62,6 +62,7 @@ function HomePage() {
     const [inputErrorMenor, setInputErrorMenor] = useState(false);  // Estado para validar la entrada en n-reinas
     const [inputErrorMayor, setInputErrorMayor] = useState(false);  // Estado para validar la entrada en n-reinas
     const [inputErrorVacio, setInputErrorVacio] = useState(false);  // Estado para validar la entrada en n-reinas
+    const [InputErrorDecimal, setInputErrorDecimal] = useState(false);  // Estado para validar la entrada en n-reinas
 
     //Esstructura que contiene las soluciones de n-reinas. El indice es el tamaño y el array las soluciones
     const [datos, setDatos] = useState({
@@ -275,6 +276,7 @@ function HomePage() {
       setInputErrorMayor(false);
       setInputErrorMenor(false);
       setInputErrorVacio(false);
+      setInputErrorDecimal(false);
       //Inicializo metricas
       setSolutionNodes(prevSolutionNodes => 0);
       setPrunedNodes(prevPrunedNodes => 0);
@@ -290,12 +292,35 @@ function HomePage() {
 
       if (selectedAlgorithm=='Suma de Subconjuntos')
       {
-        //const selectedAlgorithm = 'Suma de Subconjuntos'; // Puedes mantener esta lógica si es necesario
         const inputNumbers = document.getElementById('inputNumbers').value;
         const inputTarget = parseFloat(document.getElementById('inputTarget').value);
         
         // Convierte la entrada de números separados por comas en un arreglo
-        const numbers = inputNumbers.split(',').map(Number);
+        //const numbers = inputNumbers.split(',').map(Number);
+        //Convierte la entrada de numeros separados por comas en un arreglo y filtra los ceros
+        //const numbers = inputNumbers.split(',').map(Number).filter(num => num !== 0);
+        // Convierte la entrada de números separados por comas en un arreglo, filtra los ceros y numeros repetidos
+        const numbers = inputNumbers.split(',').map(Number).filter((num, index, arr) => arr.indexOf(num) === index && num !== 0);
+
+        // Valida que la lista de números no esté vacía
+        if (numbers.length === 0 || inputNumbers.trim() === '') {
+          setInputErrorVacio(true);
+          return;
+        }
+        // Valida que ninguno de los números en la lista sea un decimal
+        if (numbers.some(number => number !== parseInt(number))) {
+          setInputErrorDecimal(true);
+          return;
+        }
+        // Realiza la validación
+        if (inputTarget === '' || isNaN(inputTarget)) {
+          setInputErrorVacio(true);
+          return; // Detén la ejecución si hay un error
+        }
+        if (!Number.isInteger(inputTarget)) {
+          setInputErrorDecimal(true);
+          return; // Detén la ejecución si hay un error
+        }
 
         if (selectedOption === 'BACKTRACKING') {
           const start = performance.now(); // Tiempo inicial de ejecución
@@ -328,6 +353,10 @@ function HomePage() {
           // Realiza la validación
           if (inputTarget === '' || isNaN(inputTarget)) {
             setInputErrorVacio(true);
+            return; // Detén la ejecución si hay un error
+          }
+          if (!Number.isInteger(inputTarget)) {
+            setInputErrorDecimal(true);
             return; // Detén la ejecución si hay un error
           }
           if ((inputTarget < 4)) {
@@ -378,6 +407,10 @@ function HomePage() {
           // Validar los tamaños
           if (sizes.some(isNaN)) {
             setInputErrorVacio(true); // Podrías considerar cambiar este error si prefieres un mensaje diferente para NaN
+            return;
+          }
+          if (sizes.some(size => size !== parseInt(size))) {
+            setInputErrorDecimal(true); // Activa el error si alguno de los números no es un entero
             return;
           }
           if (sizes.some(size => size < 4)) {
@@ -567,7 +600,8 @@ function HomePage() {
               </label>
               <br />
             </form>
-
+            {inputErrorVacio && <p className="error-message"> Ingrese los valores requeridos!</p>}
+            {InputErrorDecimal && <p className="error-message"> No puede ingresar números decimales</p>}
             </section>
         )}
 
@@ -577,11 +611,12 @@ function HomePage() {
             <form>
               <label>
                 Cantidad de Reinas:
-                <input type="text" id="inputTarget" inputMode="numeric" />
+                <input type="text" id="inputTarget" inputmode="numeric" pattern="[0-9]*" />
               </label>
               <br />
             </form>
             {inputErrorVacio && <p className="error-message"> Ingrese la cantidad de reinas!</p>}
+            {InputErrorDecimal && <p className="error-message"> No puede ingresar números decimales</p>}
             {inputErrorMenor && <p className="error-message"> No existe solución para menos de 4 reinas.</p>}
             {inputErrorMayor && <p className="error-message"> La cantidad de reinas no debe ser mayor a 9 para que sea tratable.</p>}
             </section>
@@ -598,6 +633,7 @@ function HomePage() {
               <br />
             </form>
             {inputErrorVacio && <p className="error-message"> Ingrese los tamaños de entrada!</p>}
+            {InputErrorDecimal && <p className="error-message"> No puede ingresar números decimales</p>}
             {inputErrorMenor && <p className="error-message"> No existe solución para una entrada menor a 4 reinas.</p>}
             {inputErrorMayor && <p className="error-message"> Ninguna entrada debe ser mayor a 12 reinas para que sea tratable.</p>}
 

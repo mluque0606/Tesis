@@ -8,7 +8,7 @@ function HelpPage({ onClose }) {
     
           {/* Contenido de la página de ayuda */}
             <header>
-                <h1>Guia de cómo usar la página</h1>
+                <h1>Guia de uso</h1>
             </header>
 
             <main style={{ textAlign: 'left', margin: '20px' }}>
