@@ -4,7 +4,7 @@ que columna va la reina colocada, la fila la indica el nombre del nodo o en todo
 del vector. Se analiza que no haya reinas en la misma fila, columna o diagonal (ambos sentidos).
 */
 
-import React, { useState } from 'react';  // Asegúrate de importar useState si no lo has hecho
+import React, { useState } from 'react';
 
 export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSolutionNodes, tree = [], solutionsSet = new Set(), nodeCounter = {count: 1}) => {
   if (row === n) {
@@ -43,8 +43,11 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
     });
   }
 
+  let hasSafeChild = false; // Variable para rastrear si hay algún hijo seguro
+
   for (let col = 0; col < n; col++) {
     if (isSafe(board, row, col)) {
+      hasSafeChild = true; // Se encontró un hijo seguro
       currentRow[col] = 1; // Coloca una reina en esta posición
       const child = generateNQueensTree(n, [...board], row + 1, setPrunedNodes, setSolutionNodes, [], solutionsSet, nodeCounter);
       children.push(...child);
@@ -52,7 +55,7 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
     }
   }
 
-  if (children.length === 0) {
+  if (!hasSafeChild) {   // Incrementa solo si no hay hijos seguros
     setPrunedNodes((prevPrunedNodes) => prevPrunedNodes + 1);
   }
 

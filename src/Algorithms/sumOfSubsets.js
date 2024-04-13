@@ -72,9 +72,8 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       ];
     } 
   
-    if (currentIndex >= numbers.length || currentSum > targetSum) {
+    if (currentIndex > numbers.length || currentSum > targetSum) {
       setPrunedNodes(prevPrunedNodes => prevPrunedNodes + 1);
-      return [];
     }
   
     const currentNumber = numbers[currentIndex];
@@ -82,31 +81,81 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
   
     // Considera cada número como una posible decisión
     for (let i = currentIndex; i < numbers.length; i++) {
-      const includePath = [...path, numbers[i]];
-      const includeChild = generateTreeDatanario(
-        currentSum + numbers[i],
+        const includePath = [...path, numbers[i]];
+        const includeChild = generateTreeDatanario(
+          currentSum + numbers[i],
+          targetSum,
+          numbers,
+          i + 1,
+          includePath, 
+          setPrunedNodes, 
+          setSolutionNodes,
+        );
+        children.push(...includeChild);
+    }
+  
+    if (currentIndex > numbers.length || currentSum > targetSum) {
+      return[];
+    }
+    else{
+          // Retorno para nodos de transición
+      return [
+        {
+          name: `(${path.join(', ')})`,
+          children,
+        },
+      ];
+    }
+  };
+
+  // Función para generar el árbol de espacio de soluciones binario con poda incluida
+  export const generateTreeData = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
+    if (currentSum === targetSum) {
+      setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);
+      return [
+        {
+          name: `SOLUCION`,
+          attributes: { 
+            Subconjunto: path.join(', '), 
+            Suma: targetSum,
+          },
+        },
+      ];
+    } 
+  
+    if (currentIndex >= numbers.length || currentSum > targetSum) {
+      setPrunedNodes(prevPrunedNodes => prevPrunedNodes + 1);
+      return [];
+    }
+  
+    const currentNumber = numbers[currentIndex];
+    const children = [];
+
+    if (currentSum + currentNumber <= targetSum) {
+      // Excluye el número actual en el subconjunto
+      const excludeChild = generateTreeData(
+        currentSum,
         targetSum,
         numbers,
-        i + 1,
+        currentIndex + 1,
+        path,
+        setPrunedNodes, 
+        setSolutionNodes, 
+      );
+      children.push(...excludeChild);
+      // Incluye el número actual en el subconjunto
+      const includePath = [...path, currentNumber];
+      const includeChild = generateTreeData(
+        currentSum + currentNumber,
+        targetSum,
+        numbers,
+        currentIndex + 1,
         includePath, 
         setPrunedNodes, 
         setSolutionNodes,
       );
       children.push(...includeChild);
     }
-  
-    // También considera no incluir el número actual en el subconjunto
-    const excludeChild = generateTreeDatanario(
-      currentSum,
-      targetSum,
-      numbers,
-      numbers.length,
-      path,
-      setPrunedNodes, 
-      setSolutionNodes, 
-    );
-    children.push(...excludeChild);
-  
     // Retorno para nodos de transición
     return [
       {
@@ -115,10 +164,9 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       },
     ];
   };
-
-  // Función para generar el árbol de espacio de soluciones binario con poda incluida
-  export const generateTreeData = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
-    if (currentIndex === numbers.length) {
+    
+    
+    /*if (currentIndex === numbers.length) {
       // Se ha alcanzado el final del conjunto de números
       if (currentSum === targetSum) {
         // Si la suma actual es igual al objetivo, es una solución
@@ -170,8 +218,7 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
         name: `(${path.join(', ')})`,
         children: [...excludeChildren, ...includeChildren],
       },
-    ];
-  };
+    ];*/
 
   /*
   Funcion que retorna el codigo en c++ para ser mostrado en la ventana emergente de backtracking  

@@ -300,8 +300,9 @@ function HomePage() {
         //Convierte la entrada de numeros separados por comas en un arreglo y filtra los ceros
         //const numbers = inputNumbers.split(',').map(Number).filter(num => num !== 0);
         // Convierte la entrada de números separados por comas en un arreglo, filtra los ceros y numeros repetidos
-        const numbers = inputNumbers.split(',').map(Number).filter((num, index, arr) => arr.indexOf(num) === index && num !== 0);
-
+        let numbers = inputNumbers.split(',').map(Number).filter((num, index, arr) => arr.indexOf(num) === index && num !== 0);
+        // Ordena los números en orden ascendente
+        numbers.sort((a, b) => a - b);
         // Valida que la lista de números no esté vacía
         if (numbers.length === 0 || inputNumbers.trim() === '') {
           setInputErrorVacio(true);
@@ -323,8 +324,8 @@ function HomePage() {
         }
 
         if (selectedOption === 'BACKTRACKING') {
-          const start = performance.now(); // Tiempo inicial de ejecución
           let newTreeData;
+          const start = performance.now(); // Tiempo inicial de ejecución
           if (selectedTreeType === 'generateTreeData') {
             if (selectedResolution === 'Con Poda') {
               newTreeData = generateTreeData(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
@@ -334,7 +335,6 @@ function HomePage() {
           } else if (selectedTreeType === 'generateTreeDatanario') {
             if (selectedResolution === 'Con Poda') {
               newTreeData = generateTreeDatanario(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
-
             }
           }
           const end = performance.now(); // Tiempo final de ejecución
@@ -367,18 +367,17 @@ function HomePage() {
             setInputErrorMayor(true);
             return; // Detén la ejecución si hay un error
           }
-          const start = performance.now(); // Tiempo inicial de ejecución
           let newTreeData;
           const initialBoard = Array.from({ length: inputTarget }, () => Array(inputTarget).fill(0));
           // Inicializar el contador de nodos
           const nodeCounter = { count: 1 };
-
+          const start = performance.now(); // Tiempo inicial de ejecución
           newTreeData = generateNQueensTree(inputTarget, initialBoard, 0, setPrunedNodes, setSolutionNodes, [], undefined, nodeCounter);
+          
+          const end = performance.now(); // Tiempo final de ejecución
 
           setGeneratedNodes(--nodeCounter.count);
 
-          
-          const end = performance.now(); // Tiempo final de ejecución
           const timeTaken = (end - start).toFixed(5); // Tiempo de ejecución en milisegundos
           setExecutionTime(timeTaken);
 
@@ -475,7 +474,7 @@ function HomePage() {
       }
       window.location.reload();
     };
-
+    
     return (
     <div>
         {/* Sección de navegación */}
