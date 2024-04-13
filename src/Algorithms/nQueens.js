@@ -53,6 +53,9 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
       children.push(...child);
       currentRow[col] = 0; // Deshaz la decisión para explorar otras posibilidades
     }
+    else{
+      setPrunedNodes((prevPrunedNodes) => prevPrunedNodes + 1);
+    }
   }
 
   if (!hasSafeChild) {   // Incrementa solo si no hay hijos seguros

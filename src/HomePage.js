@@ -7,7 +7,7 @@ import { useState } from 'react';
 import Tree from 'react-d3-tree';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUndo, faPlay, faChessBoard, faCode } from "@fortawesome/free-solid-svg-icons";
-import { generateTreeDataSinPoda, generateTreeDatanario, generateTreeData, generateTreeDatanarioSinPoda, codeSumOfSubsetsNario, codeSumOfSubsetsBinarioPoda, codeSumOfSubsetsBinario } from './Algorithms/sumOfSubsets';
+import { generateTreeDataSinPoda, generateTreeDatanario, generateTreeDatanarioSinPoda, generateTreeData, codeSumOfSubsetsNario, codeSumOfSubsetsNarioSinPoda, codeSumOfSubsetsBinarioPoda, codeSumOfSubsetsBinario } from './Algorithms/sumOfSubsets';
 import { generateNQueensTree, runNQueensForDifferentSizes, codeNQueens } from './Algorithms/nQueens';
 import { createExecutionTimeChart } from './TimeComplexity';
 import './HomePage.css'; // Agrega los estilos a la pagina de inicio
@@ -213,8 +213,14 @@ function HomePage() {
           }
         }
         else if (selectedTreeType === 'generateTreeDatanario'){
-          code = codeSumOfSubsetsNario();
-          tittle = 'Suma de Subconjuntos n-ario';
+          if (selectedResolution === 'Con Poda') {
+            code = codeSumOfSubsetsNario();
+            tittle = 'Suma de Subconjuntos n-ario';
+          }
+          else if (selectedResolution === 'Sin Poda'){
+            code = codeSumOfSubsetsNarioSinPoda();
+            tittle = 'Suma de Subconjuntos n-ario sin poda';
+          }
         }
       }
       if (newWindow) {
@@ -335,6 +341,8 @@ function HomePage() {
           } else if (selectedTreeType === 'generateTreeDatanario') {
             if (selectedResolution === 'Con Poda') {
               newTreeData = generateTreeDatanario(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
+            } else if (selectedResolution === 'Sin Poda') {
+              newTreeData = generateTreeDatanarioSinPoda(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
             }
           }
           const end = performance.now(); // Tiempo final de ejecución
@@ -568,19 +576,15 @@ function HomePage() {
                 />
                 Con poda
               </label>
-              {selectedTreeType === 'generateTreeData' && (
-                <>
-                  <label>
-                    <input
-                      type="radio"
-                      value="Sin Poda"
-                      checked={selectedResolution === 'Sin Poda'}
-                      onChange={handleResolutionChange}
-                    />
-                    Sin poda
-                  </label>
-                </>
-              )}
+              <label>
+                <input
+                  type="radio"
+                  value="Sin Poda"
+                  checked={selectedResolution === 'Sin Poda'}
+                  onChange={handleResolutionChange}
+                />
+                Sin poda
+              </label>
             </section>
           )}
 

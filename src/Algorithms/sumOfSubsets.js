@@ -58,6 +58,7 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
   };
 
   //Arbol para generar el espacio de solucion n-ario con poda incluida
+  //Si hacemos el arbol n-ario sin poda es lo mismo pero en vez de retornar vacio en la poda hacemos el nodo transicion
   export const generateTreeDatanario = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
     if (currentSum === targetSum) {
       setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);
@@ -95,10 +96,10 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
     }
   
     if (currentIndex > numbers.length || currentSum > targetSum) {
-      return[];
+      return [];    
     }
     else{
-          // Retorno para nodos de transición
+      // Retorno para nodos de transición
       return [
         {
           name: `(${path.join(', ')})`,
@@ -107,6 +108,47 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       ];
     }
   };
+
+  export const generateTreeDatanarioSinPoda = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
+    if (currentSum === targetSum) {
+      setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);
+      return [
+        {
+          name: `SOLUCION`,
+          attributes: { 
+            Subconjunto: path.join(', '), 
+            Suma: targetSum,
+          },
+        },
+      ];
+    } 
+  
+    const children = [];
+  
+    // Considera cada número como una posible decisión
+    for (let i = currentIndex; i < numbers.length; i++) {
+        const includePath = [...path, numbers[i]];
+        const includeChild = generateTreeDatanarioSinPoda(
+          currentSum + numbers[i],
+          targetSum,
+          numbers,
+          i + 1,
+          includePath, 
+          setPrunedNodes, 
+          setSolutionNodes,
+        );
+        children.push(...includeChild);
+    }
+
+    // Retorno para nodos de transición
+    return [
+      {
+        name: `(${path.join(', ')})`,
+        children,
+      },
+    ];
+  };
+
 
   // Función para generar el árbol de espacio de soluciones binario con poda incluida
   export const generateTreeData = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
@@ -123,7 +165,7 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       ];
     } 
   
-    if (currentIndex >= numbers.length || currentSum > targetSum) {
+    if (currentIndex >= numbers.length) {
       setPrunedNodes(prevPrunedNodes => prevPrunedNodes + 1);
       return [];
     }
@@ -164,61 +206,6 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
       },
     ];
   };
-    
-    
-    /*if (currentIndex === numbers.length) {
-      // Se ha alcanzado el final del conjunto de números
-      if (currentSum === targetSum) {
-        // Si la suma actual es igual al objetivo, es una solución
-        setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);
-        return [
-          {
-            name: `SOLUCION`,
-            attributes: {
-              Subconjunto: path.join(', '),
-              Suma: targetSum,
-            },
-          },
-        ];
-      } else {
-        // No es una solución
-        setPrunedNodes(prevPrunedNodes => prevPrunedNodes + 1);
-        return [];
-      }
-    }
-
-    const currentNumber = numbers[currentIndex];
-
-    // Incluir el número actual en el subconjunto
-    const includePath = [...path, currentNumber];
-    const includeChildren = generateTreeData(
-      currentSum + currentNumber,
-      targetSum,
-      numbers,
-      currentIndex + 1,
-      includePath, 
-      setPrunedNodes, 
-      setSolutionNodes,
-      );
-
-    // Excluir el número actual del subconjunto
-    const excludeChildren = generateTreeData(
-      currentSum,
-      targetSum,
-      numbers,
-      currentIndex + 1,
-      path,
-      setPrunedNodes, 
-      setSolutionNodes,
-      );
-
-      //Retorno para nodos de transicion
-    return [
-      {
-        name: `(${path.join(', ')})`,
-        children: [...excludeChildren, ...includeChildren],
-      },
-    ];*/
 
   /*
   Funcion que retorna el codigo en c++ para ser mostrado en la ventana emergente de backtracking  
@@ -238,6 +225,23 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
     `;
     return code;
   }
+
+  export const codeSumOfSubsetsNarioSinPoda = () => {
+    const code = `
+      void SumaSubconjuntos (int W[], int M, int N, int actual, int suma, int* sol, int ind) {
+        if (suma == M) {
+          mostrarSolucion(sol, n);
+        } else {
+          while (actual < N){
+            sol[ind] = W[actual];      // guardo el valor
+            SumaSubconjuntos (W, M, N, actual+1, suma + W[actual], sol, ind+1);
+            actual++;
+          }
+        }
+    `;
+    return code;
+  }
+
   export const codeSumOfSubsetsBinarioPoda = () => {
     const code = `
       void  SumaSubconjuntosBinario(int W[],int M, int n, int actual, int suma, int* sol) {
