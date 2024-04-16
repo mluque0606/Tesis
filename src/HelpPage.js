@@ -1,11 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
 
 function HelpPage({ onClose }) {
     return (
         <div>
-    
           {/* Contenido de la página de ayuda */}
             <header>
                 <h1>Guia de uso</h1>

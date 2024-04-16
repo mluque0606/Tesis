@@ -1,10 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-
-import './HomePage.css'; // Agrega esta línea para importar los estilos
+import './HomePage.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css'; // Importa los estilos de react-tabs
+import 'react-tabs/style/react-tabs.css'; // Importar estilos de react-tabs (pestañas de la pagina)
 
 
 
@@ -35,7 +33,6 @@ function ReferencePage({ onClose }) {
 
   return (
     <div>
-      {/* Contenido de la página de referencia */}
       <Tabs selectedIndex={tabIndex} onSelect={index => setTabIndex(index)}>
         <TabList>
           <Tab>Backtracking</Tab>
@@ -115,11 +112,6 @@ function ReferencePage({ onClose }) {
                 </div>
               </section>
           </main>
-
-          <footer style={{paddingTop: '100px', textAlign: 'center' }}>
-              <p>Cormen, T.; Lieserson, C.; Rivest, R.; Stein, C. Introduction to Algorithms, Fourth Edition. The deMit Press, 2022.</p>
-              <p>Horowitz, E.; Sahni, S.; Rajasekaran, S. Computer Algorithms / C++. Silicon Press; 2 edition, 2007.</p>
-          </footer>
         </TabPanel>
 
         <TabPanel>
@@ -157,21 +149,15 @@ function ReferencePage({ onClose }) {
                 </div>
               </section>
           </main>
-
-          <footer style={{paddingTop: '100px', textAlign: 'center' }}>
-              <p>Cormen, T.; Lieserson, C.; Rivest, R.; Stein, C. Introduction to Algorithms, Fourth Edition. The deMit Press, 2022.</p>
-              <p>Horowitz, E.; Sahni, S.; Rajasekaran, S. Computer Algorithms / C++. Silicon Press; 2 edition, 2007.</p>
-          </footer>
-
         </TabPanel>
       </Tabs>
 
-      <footer>
-        {/* Contenido del pie de página */}
+      <footer style={{paddingTop: '100px', textAlign: 'center' }}>
+              <p>Cormen, T.; Lieserson, C.; Rivest, R.; Stein, C. Introduction to Algorithms, Fourth Edition. The deMit Press, 2022.</p>
+              <p>Horowitz, E.; Sahni, S.; Rajasekaran, S. Computer Algorithms / C++. Silicon Press; 2 edition, 2007.</p>
       </footer>
     </div>
   );
 }
-
 
 export default ReferencePage;
