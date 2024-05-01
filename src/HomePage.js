@@ -334,7 +334,21 @@ function HomePage() {
           const start = performance.now(); // Tiempo inicial de ejecución
           if (selectedTreeType === 'generateTreeData') {
             if (selectedResolution === 'Con Poda') {
-              newTreeData = generateTreeData(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
+              const nodeCounter = { count: 1 };
+              newTreeData = generateTreeData(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes, nodeCounter);
+
+              // Podados = Calculo el total teorico de nodos para el arbol completo y le resto los generados
+              const fun = (n) => {
+                let suma = 0;
+                for (let i = 0; i <= n; i++) {
+                  suma += Math.pow(2, i);
+                }
+                return suma;
+              };
+              const total = fun(numbers.length);
+              const generados =  --nodeCounter.count;
+              setPrunedNodes(total - generados);
+
             } else if (selectedResolution === 'Sin Poda') {
               newTreeData = generateTreeDataSinPoda(0, inputTarget, numbers, 0, [], setPrunedNodes, setSolutionNodes);
             }
@@ -381,7 +395,7 @@ function HomePage() {
           const nodeCounter = { count: 1 };
           const start = performance.now(); // Tiempo inicial de ejecución
           newTreeData = generateNQueensTree(inputTarget, initialBoard, 0, setPrunedNodes, setSolutionNodes, [], undefined, nodeCounter);
-          
+
           const end = performance.now(); // Tiempo final de ejecución
 
           setGeneratedNodes(--nodeCounter.count);
@@ -621,7 +635,7 @@ function HomePage() {
             {inputErrorVacio && <p className="error-message"> Ingrese la cantidad de reinas!</p>}
             {InputErrorDecimal && <p className="error-message"> No puede ingresar números decimales</p>}
             {inputErrorMenor && <p className="error-message"> No existe solución para menos de 4 reinas.</p>}
-            {inputErrorMayor && <p className="error-message"> La cantidad de reinas no debe ser mayor a 9 para que sea tratable.</p>}
+            {inputErrorMayor && <p className="error-message"> La cantidad de reinas no debe ser mayor a 9 para obtener una óptima visualización.</p>}
             </section>
         )}
 
@@ -638,7 +652,7 @@ function HomePage() {
             {inputErrorVacio && <p className="error-message"> Ingrese los tamaños de entrada!</p>}
             {InputErrorDecimal && <p className="error-message"> No puede ingresar números decimales</p>}
             {inputErrorMenor && <p className="error-message"> No existe solución para una entrada menor a 4 reinas.</p>}
-            {inputErrorMayor && <p className="error-message"> Ninguna entrada debe ser mayor a 12 reinas para que sea tratable.</p>}
+            {inputErrorMayor && <p className="error-message"> Ninguna entrada debe ser mayor a 12 reinas para obtener una óptima visualización.</p>}
 
             </section>
         )}
@@ -712,7 +726,10 @@ function HomePage() {
                 <canvas id="myChart1" width="700" height="500" style={{ marginBottom: '20px' }}></canvas>
                 {descriptionVisible && (
                   <p style={{ maxWidth: '700px', padding: '10px', textAlign: 'justify' }}>
-                    El análisis teórico considera el número de operaciones que realiza el algoritmo en función del tamaño de la entrada. La complejidad temporal teórica es utilizada para comparar algoritmos y determinar cuál es más eficiente en términos de cantidad de operaciones realizadas.
+                    El análisis teórico considera el número de operaciones que realiza el algoritmo en función del tamaño de la entrada. La complejidad temporal teórica es utilizada para comparar algoritmos y determinar cuál es más eficiente en términos de cantidad de operaciones realizadas.<br/>
+                    <span style={{ fontStyle: 'italic' }}>
+                      {'<'}En este caso se utiliza como medición la cantidad de estados generados{'>'}
+                    </span>
                   </p>
                 )}
                 <canvas id="myChart2" width="700" height="500" style={{ marginBottom: '20px' }}></canvas>

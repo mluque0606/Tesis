@@ -11,10 +11,9 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
     setSolutionNodes((prevSolutionNodes) => prevSolutionNodes + 1);
     const queensPositions = board.map((row, rowIndex) => row.indexOf(1) + 1);
     return [{
-      name: 'SOLUCION',
+      name: `[${nodeCounter.count++}] ` + 'SOLUCION',
       attributes: {
-        'Columnas': '(' + queensPositions.join(', ') + ')',
-        'Orden' : nodeCounter.count++,
+        'Col': '(' + queensPositions.join(', ') + ')',
       }
     }];
   }
@@ -27,18 +26,15 @@ export const generateNQueensTree = (n, board, row = 0, setPrunedNodes, setSoluti
   //Se hace antes de la recursion para que cree los nodos en preorden
   if (row != 0) {
     tree.push({
-      name: `Fila ${row}`,
+      name: `[${nodeCounter.count++}] ` + `Fila ${row}`,
       attributes: {
-        'Columnas': '(' + board.map((row, rowIndex) => row.indexOf(1) + 1).join(', ') + ')  ',
-        'Orden': nodeCounter.count++,
+        'Col': '(' + board.map((row, rowIndex) => row.indexOf(1) + 1).join(', ') + ')  ',
       },
       children,
     });
   } else {
     tree.push({
-      attributes: {
-        'Orden': nodeCounter.count++,
-      },
+      name: `[${nodeCounter.count++}] `,
       children,
     });
   }

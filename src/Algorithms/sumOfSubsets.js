@@ -58,7 +58,6 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
   };
 
   //Arbol para generar el espacio de solucion n-ario con poda incluida
-  //Si hacemos el arbol n-ario sin poda es lo mismo pero en vez de retornar vacio en la poda hacemos el nodo transicion
   export const generateTreeDatanario = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
     if (currentSum === targetSum) {
       setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);
@@ -151,22 +150,21 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
 
 
   // Función para generar el árbol de espacio de soluciones binario con poda incluida
-  export const generateTreeData = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes) => {
+  export const generateTreeData = (currentSum, targetSum, numbers, currentIndex, path = [], setPrunedNodes, setSolutionNodes, nodeCounter = {count: 1}) => {
     if (currentSum === targetSum) {
       setSolutionNodes(prevSolutionNodes => prevSolutionNodes + 1);
-      return [
-        {
+      nodeCounter.count++;
+      return [{
           name: `SOLUCION`,
           attributes: { 
             Subconjunto: path.join(', '), 
             Suma: targetSum,
           },
-        },
-      ];
+        }];
     } 
   
     if (currentIndex >= numbers.length) {
-      setPrunedNodes(prevPrunedNodes => prevPrunedNodes + 1);
+      //setPrunedNodes(prevPrunedNodes => prevPrunedNodes + 1);
       return [];
     }
   
@@ -183,6 +181,7 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
         path,
         setPrunedNodes, 
         setSolutionNodes, 
+        nodeCounter,
       );
       children.push(...excludeChild);
       // Incluye el número actual en el subconjunto
@@ -195,16 +194,17 @@ export const generateTreeDataSinPoda = (currentSum, targetSum, numbers, currentI
         includePath, 
         setPrunedNodes, 
         setSolutionNodes,
+        nodeCounter,
       );
       children.push(...includeChild);
     }
     // Retorno para nodos de transición
+    nodeCounter.count++;
     return [
       {
         name: `(${path.join(', ')})`,
         children,
-      },
-    ];
+      }];
   };
 
   /*

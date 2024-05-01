@@ -50,6 +50,7 @@ function HelpPage({ onClose }) {
                     <p>• Presionar en el logo "BACK SOLUTION" dirige al menú principal.</p>
                     <p>• Siempre que sea necesario ingresar parámetros, hacerlo separando los valores por coma (',').</p>
                     <p>• Respetar controles de validación para la carga de parámetros, ya sea por números inválidos o por la omisión de alguno.</p>
+                    <p>• En el árbol correspondiente al espacio de solución de backtracking, el número encerrado entre corchetes hace referencia al orden de generación de ese estado.</p>
                 </div>
               </section>
           </main>
