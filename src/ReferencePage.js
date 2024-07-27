@@ -99,7 +99,6 @@ function ReferencePage({ onClose }) {
               </section>
 
               <section>
-                <h2> Ventajas y desventajas: </h2>
                 <div className='reference-characteristics'>
                   <p>
                     <strong>Ventaja: </strong>
